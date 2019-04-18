@@ -62,3 +62,39 @@
         }
     }
 }
+#management {
+
+    // Single scroll
+    &.single-scroll {
+
+        .management-list-pane {
+            overflow: hidden;
+        }
+    }
+
+    .management-list-pane {
+
+        .management-items {
+
+            &.sortable {
+
+                .management-item {
+                    //padding: 16px 16px 16px 48px;
+                    padding: 16px 16px 16px 16px;
+
+                    .handle {
+                        display: block;
+                    }
+                }
+            }
+        }
+        
+        .inactive {
+            cursor: default;
+        }
+
+        .management-items {
+            overflow-x: hidden;
+        }
+    }
+}

@@ -98,4 +98,5 @@
     , "postal_not_all_numbers": "vul a.u.b. alleen de 4 cijfers van de postcode in."
     , "view": "Inzien"
     , "user_invited": "De uitnodiging is verstuurd."
+    , "scan_user": "Gebruiker scannen"
 }

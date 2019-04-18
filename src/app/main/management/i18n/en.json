@@ -98,4 +98,5 @@
     , "postal_too_many_characters": "please just enter the 4 numbers off the postal"
     , "view": "read"
     , "user_invited": "User invited."
+    , "scan_user": "Scan user"
 }

@@ -1,0 +1,101 @@
+<!-- MANAGEMENT LIST ITEMS -->
+<div class="management-items" ng-sortable="vm.sortableOptions" ng-class="{'sortable': vm.order === ''}">
+    <div ng-if="vm.loadingAttendance" class="management-item inactive">
+        <div layout="row" layout-align="start center" flex>
+            <div class="info" flex>
+                <div class="title">
+                    {{'loading' | translate}}
+                </div>
+            </div>
+        </div>
+    </div>
+    <md-list-item ng-show="!vm.loadingAttendance" class="extra-item md-white-bg" ng-click="vm.scanUser()">
+        <md-icon md-font-icon="icon-qrcode"></md-icon>
+        <div flex class="md-list-item-text">
+            <h3 class="text-truncate text-spacing md-primary" translate="scan_user">Scan gebruiker</h3>
+        </div>
+    </md-list-item>
+    <div ng-show="!vm.loadingAttendance && !vm.filteredAttendance.length == 0" class="management-item md-white-bg" md-ink-ripple layout="row" layout-align="start center" ng-repeat="user in vm.filteredAttendance | limitTo:vm.limitAmount track by user.id" ng-click="">
+
+        <div layout="row" layout-align="start center" flex>
+
+            <div class="info" flex>
+                <div class="title">
+                    {{user.name}} <span class="secondary"
+                        ng-if="user.date">({{user.date | date : 'dd/MM/yyyy HH:mm'}})</span>
+                </div>
+
+                <div class="notes">
+                    {{user.address}}
+                </div>
+
+                <div class="tags" layout="row" layout-align="start center" layout-wrap>
+
+                    <div class="user-status" layout="row" layout-align="start center"
+                        ng-style="user.isChecked && {'background-color':'lightgreen'} || {'background-color': 'red'}">
+                    </div>
+
+                    <div class="tag" layout="row" layout-align="start center"
+                        ng-repeat="tag in user.tags track by tag.id">
+                        <div class="tag-color" ng-style="{'background-color': tag.color}"></div>
+                        <div class="tag-label">{{tag.name}}</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- <div class="buttons" layout="row" layout-align="start center">
+                    
+                                    <md-button ng-if="vm.access.organisation.editMessages == true" class="md-icon-button" aria-label="More" translate
+                                               translate-attr-aria-label="MANAGEMENT.MORE">
+                                        <md-tooltip>{{'edit_message' | translate}}</md-tooltip>
+                                        <md-icon md-font-icon="icon-pencil" ng-click="vm.openEditDialog($event, vm.selectedType, user.id); $event.stopPropagation();"></md-icon>
+                                    </md-button>
+                    
+                                    <md-menu>
+                                        <md-button class="md-icon-button" aria-label="More" translate
+                                                   translate-attr-aria-label="MANAGEMENT.MORE">
+                                            <md-icon md-font-icon="icon-dots-vertical" ng-click="$mdMenu.open($event)"></md-icon>
+                                        </md-button>
+                    
+                                        <md-menu-content width="3">
+                                            <md-menu-item ng-if="vm.access.organisation.editMessages == true">
+                                                <md-button ng-click="vm.createCopy($event, vm.selectedType, user)" aria-label="answer_dialog">
+                                                    <md-icon class="grey-fg" md-font-icon="icon-content-copy" class="s18"></md-icon>
+                                                    <span>{{'create_copy' | translate}}</span>
+                                                </md-button>
+                                            </md-menu-item>
+                                            <md-menu-item>
+                                                <md-button ng-click="vm.openAnswerDialog($event, vm.selectedType, user.id)" aria-label="answer_dialog">
+                                                    <md-icon class="grey-fg" md-font-icon="icon-comment-text-outline" class="s18"></md-icon>
+                                                    <span>{{'see' | translate}} <span class="lowercase">{{'answers' | translate}}</span></span>
+                                                </md-button>
+                                            </md-menu-item>
+                                        </md-menu-content>
+                                    </md-menu>
+                                </div> -->
+        </div>
+        <div ng-if="!vm.loadingAttendance && vm.filteredAttendance.length == 0" layout="row" layout-align="start center" flex>
+            <div class="info" flex>
+                <div class="title">
+                    {{'no_results' | translate}}
+                </div>
+            </div>
+        </div>
+        <div ng-if="!vm.loadingAttendance && vm.attendance.length == 0" class="management-item inactive">
+            <div layout="row" layout-align="start center" flex>
+                <div class="info" flex>
+                    <div class="title">
+                        {{'nothing_here' | translate}}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <md-list-item ng-if="!vm.loadingAttendance && !vm.maxLimitReached" class="extra-item md-white-bg" ng-click="vm.showMore()">
+        <md-icon md-font-icon="icon-chevron-down"></md-icon>
+        <div flex class="md-list-item-text">
+            <h3 class="text-truncate text-spacing md-primary" translate="show_more">Show more</h3>
+        </div>
+    </md-list-item>
+</div>
+<!-- / MANAGEMENT LIST ITEMS -->

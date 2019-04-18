@@ -20,6 +20,8 @@
         vm.currentlyEditing = store.get('currentlyEditing');
         console.log('currentlyEditing', vm.currentlyEditing);
         if (!vm.currentlyEditing) $state.go('app.select-entity');
+        vm.limitAmount = 0;
+        vm.search = '';
         // vm.rights = {};
         vm.access = {}
         firebase.auth().onAuthStateChanged(function (user) {
@@ -122,17 +124,30 @@
                                     }
                                     console.log('vm.organisation', vm.organisation);
                                 });
+                                ref.organisation.collection('attendance').onSnapshot(function (snapshot) {
+                                    vm.attendanceUsers = {};
+                                    snapshot.forEach(function (doc) {
+                                        var attendance = doc.data();
+                                        attendance.id = doc.id;
+                                        if (attendance.date) attendance.date = attendance.date.toDate();
+                                        vm.attendanceUsers[doc.id] = attendance;
+                                    });
+                                    console.log('attendanceUsers', vm.attendanceUsers);
+                                    updateUsers();
+                                })
                             }
                         });
 
                         function updateUsers() {
                             var users = [];
-                            _.forEach(vm.usersObj, function (user, userId) {
+                            _.forEach(vm.attendanceUsers, function (user, userId) {
+                                users.push(user);
                                 // console.log('user', user);
-                                if (_.chain(user).get('comData').get('access').value() && _.chain(user).get('data').get('email').value() || _.chain(user).get('orgData').get('access').value() && _.chain(user).get('data').get('email').value()) users.push(user);
+                                // if (_.chain(user).get('comData').get('access').value() && _.chain(user).get('data').get('email').value() || _.chain(user).get('orgData').get('access').value() && _.chain(user).get('data').get('email').value()) users.push(user);
                             });
                             $timeout(function () {
-                                vm.users = users;
+                                vm.attendance = users;
+                                vm.searchUpdate();
                                 // console.log('vm.users', vm.users);
                             });
                         }
@@ -207,7 +222,7 @@
         vm.msScrollOptions = {
             suppressScrollX: true
         };
-        vm.loadingUsers = true;
+        vm.loadingAttendance = true;
         vm.filtersDefaults = angular.copy(vm.filters);
         //////////
         /**
@@ -303,6 +318,60 @@
                     });
                 }
             }
+        }
+        var timeout;
+        vm.searchUpdate = function (searched) {
+            if (searched) vm.limitAmount = 0;
+            clearTimeout(timeout);
+            timeout = setTimeout(function () {
+                var search = angular.copy(vm.search).toLowerCase();
+                if (search !== '') console.log('searching for', vm.search);
+                $timeout(function () {
+                    vm.filteredAttendance = _.filter(vm.attendance, function (user) {
+                        // console.log('community', community);
+                        // console.log(community.communityData.name.toLowerCase().indexOf(search) !== -1)
+                        try {
+                            if (user.name.toLowerCase().indexOf(search) !== -1) return true;
+                            if (user.address.toLowerCase().indexOf(search) !== -1) return true;
+                            return false;
+        
+                        }
+                        catch (ex) {
+                            console.error(ex);
+                            return false;
+                        }
+                    });
+                    vm.loadingAttendance = false;
+
+                    // _.forEach(vm.filteredCommunities, function (community) {
+                    //     _.forEach(community.organisations) {}
+                    // })
+                    // console.log('vm.filteredCommunities', vm.filteredCommunities);
+                    // console.log('vm.filteredAttendance', vm.filteredAttendance);
+                    vm.showMore();
+                });
+            }, 200);
+        }
+        vm.showMore = function () {
+            vm.limitAmount = vm.limitAmount + 20;
+            checkLimitReached();
+            // if (_.size(vm.users) <= vm.limitAmount) {
+            //     vm.maxLimitReached = true;
+            // } else {
+            //     vm.maxLimitReached = false;
+            // }
+        }
+        function checkLimitReached () {
+            console.log('vm.loadingAttendance', vm.loadingAttendance);
+            console.log('vm.filteredAttendance.length', vm.filteredAttendance.length);
+            console.log('vm.limitAmount', vm.limitAmount);
+            $timeout(function () {
+                if (vm.filteredAttendance.length <= vm.limitAmount) {
+                    vm.maxLimitReached = true;
+                } else {
+                    vm.maxLimitReached = false;
+                }
+            });
         }
         /**
          * Toggle completed status of the task
