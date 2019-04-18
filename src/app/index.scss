@@ -1,0 +1,298 @@
+/**
+ *  Do not remove this comments bellow. It's the markers used by wiredep to inject
+ *  sass dependencies when defined in the bower.json of your dependencies
+ */
+// bower:scss
+// endbower
+
+/**
+ *  Do not remove this comments bellow. It's the markers used by gulp-inject to inject
+ *  all your sass files automatically
+ */
+// injector
+// endinjector
+
+
+
+/**
+ * Global CSS
+ */
+
+.dots {
+    width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    position: relative;
+    float: left;
+}
+
+.lowercase {
+    text-transform: lowercase;
+}
+
+.card {
+    background: white;
+    margin: 16px;
+    padding: 8px;
+    box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.14), 0px 2px 2px 0px rgba(0, 0, 0, 0.098), 0px 1px 5px 0px rgba(0, 0, 0, 0.084);
+}
+
+.spinner-wrapper-custom {
+    $size: 100px;
+    display: block;
+    position: relative;
+    width: 100%;
+    min-height: $size;
+    height: $size;
+//    margin-top: 100px;
+    .spinner {
+        position: absolute;
+        overflow: hidden;
+        left: 50%;
+        margin-left: calc(0px - (#{$size} / 2 - 1px));
+        animation: outer-rotate 2.91667s linear infinite;
+
+        .inner {
+            width: $size;
+            height: $size;
+            position: relative;
+            animation: sporadic-rotate 5.25s cubic-bezier(0.35, 0, 0.25, 1) infinite;
+
+            .gap {
+                position: absolute;
+                left: calc(#{$size} / 2 - 1px);
+                right: calc(#{$size} / 2 - 1px);
+                top: 0;
+                bottom: 0;
+                border-top: calc(#{$size} / 10) solid;
+                box-sizing: border-box;
+            }
+
+            .left,
+            .right {
+                position: absolute;
+                top: 0;
+                height: $size;
+                width: calc(#{$size} / 2);
+                overflow: hidden;
+
+                .half-circle {
+                    position: absolute;
+                    top: 0;
+                    width: $size;
+                    height: $size;
+                    box-sizing: border-box;
+                    border: calc(#{$size} / 10) solid #3f51b5;
+                    border-bottom-color: transparent;
+                    border-radius: 50%;
+                }
+            }
+
+            .left {
+                left: 0;
+
+                .half-circle {
+                    left: 0;
+                    border-right-color: transparent;
+                    animation: left-wobble 1.3125s cubic-bezier(0.35, 0, 0.25, 1) infinite;
+                    -webkit-animation: left-wobble 1.3125s cubic-bezier(0.35, 0, 0.25, 1) infinite;
+                }
+            }
+
+            .right {
+                right: 0;
+
+                .half-circle {
+                    right: 0;
+                    border-left-color: transparent;
+                    animation: right-wobble 1.3125s cubic-bezier(0.35, 0, 0.25, 1) infinite;
+                    -webkit-animation: right-wobble 1.3125s cubic-bezier(0.35, 0, 0.25, 1) infinite;
+                }
+            }
+        }
+    }
+
+    @keyframes outer-rotate {
+        0% {
+            transform: rotate(0deg) scale(0.5);
+        }
+        100% {
+            transform: rotate(360deg) scale(0.5);
+        }
+    }
+
+    @keyframes left-wobble {
+        0%, 100% {
+            transform: rotate(130deg);
+        }
+        50% {
+            transform: rotate(-5deg);
+        }
+    }
+
+    @keyframes right-wobble {
+        0%, 100% {
+            transform: rotate(-130deg);
+        }
+        50% {
+            transform: rotate(5deg);
+        }
+    }
+
+    @keyframes sporadic-rotate {
+        12.5% {
+            transform: rotate(135deg);
+        }
+        25% {
+            transform: rotate(270deg);
+        }
+        37.5% {
+            transform: rotate(405deg);
+        }
+        50% {
+            transform: rotate(540deg);
+        }
+        62.5% {
+            transform: rotate(675deg);
+        }
+        75% {
+            transform: rotate(810deg);
+        }
+        87.5% {
+            transform: rotate(945deg);
+        }
+        100% {
+            transform: rotate(1080deg);
+        }
+    }
+}
+.spinner-wrapper-btn {
+    $size: 40px;
+    display: block;
+    position: relative;
+    width: 100%;
+    min-height: $size;
+    height: $size;
+//    margin-top: 100px;
+    .spinner {
+        position: absolute;
+        overflow: hidden;
+        left: 50%;
+        margin-left: calc(0px - (#{$size} / 2 - 1px));
+        animation: outer-rotate 2.91667s linear infinite;
+
+        .inner {
+            width: $size;
+            height: $size;
+            position: relative;
+            animation: sporadic-rotate 5.25s cubic-bezier(0.35, 0, 0.25, 1) infinite;
+
+            .gap {
+                position: absolute;
+                left: calc(#{$size} / 2 - 1px);
+                right: calc(#{$size} / 2 - 1px);
+                top: 0;
+                bottom: 0;
+                border-top: calc(#{$size} / 10) solid;
+                box-sizing: border-box;
+            }
+
+            .left,
+            .right {
+                position: absolute;
+                top: 0;
+                height: $size;
+                width: calc(#{$size} / 2);
+                overflow: hidden;
+
+                .half-circle {
+                    position: absolute;
+                    top: 0;
+                    width: $size;
+                    height: $size;
+                    box-sizing: border-box;
+                    border: calc(#{$size} / 10) solid #3f51b5;
+                    border-bottom-color: transparent;
+                    border-radius: 50%;
+                }
+            }
+
+            .left {
+                left: 0;
+
+                .half-circle {
+                    left: 0;
+                    border-right-color: transparent;
+                    animation: left-wobble 1.3125s cubic-bezier(0.35, 0, 0.25, 1) infinite;
+                    -webkit-animation: left-wobble 1.3125s cubic-bezier(0.35, 0, 0.25, 1) infinite;
+                }
+            }
+
+            .right {
+                right: 0;
+
+                .half-circle {
+                    right: 0;
+                    border-left-color: transparent;
+                    animation: right-wobble 1.3125s cubic-bezier(0.35, 0, 0.25, 1) infinite;
+                    -webkit-animation: right-wobble 1.3125s cubic-bezier(0.35, 0, 0.25, 1) infinite;
+                }
+            }
+        }
+    }
+
+    @keyframes outer-rotate {
+        0% {
+            transform: rotate(0deg) scale(0.5);
+        }
+        100% {
+            transform: rotate(360deg) scale(0.5);
+        }
+    }
+
+    @keyframes left-wobble {
+        0%, 100% {
+            transform: rotate(130deg);
+        }
+        50% {
+            transform: rotate(-5deg);
+        }
+    }
+
+    @keyframes right-wobble {
+        0%, 100% {
+            transform: rotate(-130deg);
+        }
+        50% {
+            transform: rotate(5deg);
+        }
+    }
+
+    @keyframes sporadic-rotate {
+        12.5% {
+            transform: rotate(135deg);
+        }
+        25% {
+            transform: rotate(270deg);
+        }
+        37.5% {
+            transform: rotate(405deg);
+        }
+        50% {
+            transform: rotate(540deg);
+        }
+        62.5% {
+            transform: rotate(675deg);
+        }
+        75% {
+            transform: rotate(810deg);
+        }
+        87.5% {
+            transform: rotate(945deg);
+        }
+        100% {
+            transform: rotate(1080deg);
+        }
+    }
+}

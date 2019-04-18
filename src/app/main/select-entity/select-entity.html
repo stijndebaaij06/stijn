@@ -1,0 +1,89 @@
+<div id="select-entity" class="simple">
+    <!--<md-list>-->
+    <!--&lt;!&ndash;<md-subheader>{{'select_entity' | translate}}</md-subheader>&ndash;&gt;-->
+    <!--<md-list-item class="md-2-line" ng-repeat="(entityId, entity) in vm.entities" ng-click="vm.selectEntity(entityId, entity)">-->
+    <!--<img ng-src="{{entity.img}}" class="md-avatar" />-->
+    <!--<div class="md-list-item-text">-->
+    <!--<h3>{{entity.name}}</h3>-->
+    <!--<p>{{entity.description}}</p>-->
+    <!--</div>-->
+    <!--</md-list-item>-->
+    <!--</md-list>-->
+    <div id="contacts" class="page-layout simple left-sidenav inner-sidenav">
+        <!-- SELECTED BAR -->
+        <div ng-show="vm.entities.length > 0" class="selected-bar header animate-slide-down md-accent-bg" layout="row" layout-align="start center">
+            <!--<div class="close-button-wrapper" ng-click="vm.selectedContacts =[]">-->
+            <!--<md-button layout="row" layout-align="start center">-->
+            <!--<md-icon md-font-icon="icon-arrow-left" class="mr-8"></md-icon>-->
+            <!--<span translate="CONTACTS.BACK">Back</span>-->
+            <!--</md-button>-->
+            <!--</div>-->
+        </div>
+        <!-- / SELECTED BAR -->
+        <!-- CONTENT -->
+        <div class="content" md-background-bg layout="row" layout-align="center">
+            <!-- MAIN -->
+            <div style="padding: 0px;" class="main scrollable" ms-scroll layout="row" layout-align="center">
+                <!-- CONTACT LIST -->
+                <md-list class="contacts-list md-white-bg">
+                    <!-- CONTACT LIST HEADER -->
+                    <md-subheader class="md-no-sticky md-accent-bg"> 
+                        <div layout="row" layout-align="space-between center">
+                            <div class="list-title" layout="row" layout-align="start center"> 
+                                <span translate="select_entity">Select Entity</span>
+                                <span>&nbsp;</span>
+                                <span ng-if="vm.user.exploitant" translate="or_community">or community</span> 
+                            </div>
+                            <div class="actions">
+                                <div class="button-spacing"></div>
+                            </div>
+                        </div>
+                    </md-subheader>
+                    <!-- / CONTACT LIST HEADER -->
+                    <!-- SEARCH BAR -->
+                    <div class="md-toolbar-tools" ng-show="vm.communities">
+                        <md-icon md-font-icon="icon-magnify s18"></md-icon>
+                        <md-input-container md-no-float flex class="md-block md-white-bg searchBox">
+                            <input ng-change="vm.searchUpdate()" type="text" ng-model="vm.search" ng-model-options="{debounce: 200}" placeholder="{{'search' | translate}}">
+                        </md-input-container>
+                    </div>
+                    <!-- / SEARCH BAR-->
+                    <!-- CONTACT ITEM -->
+                    <md-list ng-if="community.worthShowing" ng-repeat="community in vm.filteredCommunities | limitTo : vm.limitAmount track by community.id">
+                        <md-list-item class="contact-item md-white-bg" ng-disabled="!community.clickable">
+                            <div class="md-list-item-text">
+                                <h3 class="text-truncate text-spacing md-primary">{{community.communityData.name}}</h3>
+                            </div> <span flex></span>
+                        </md-list-item>
+                        <md-list-item ng-if="organisation.shouldBeShown" ng-repeat="(organisationId, organisation) in community.organisations | limitTo: 1" class="secondary contact-item md-white-bg" ng-click="vm.selectEntity(community.id, organisationId)">
+                            <!--                            <img class="md-avatar" ng-src="{{organisation.organisationData.img}}" class="md-avatar" />-->
+                            <div class="md-list-item-text">
+                                <h3 class="text-truncate text-spacing"><span>&nbsp;-&nbsp;&nbsp;&nbsp;</span>{{organisation.organisationData.name}}</h3>
+                                <!--                                <p class="text-spacing">{{organisation.organisationData.description}}</p>-->
+                            </div> <span flex></span>
+                        </md-list-item>
+                    </md-list>
+                    <!-- <md-list-item ng-if="!vm.maxLimitReached" ng-click="vm.showMore()"> 
+                        <div class="md-list-item-text">
+                            <h3 translate="show_more">Show more</h3>
+                        </div>
+                    </md-list-item> -->
+                    <md-list-item ng-if="!vm.maxLimitReached" class="contact-item md-white-bg" ng-click="vm.showMore()">
+                        <md-icon md-font-icon="icon-chevron-down"></md-icon>
+                        <div flex class="md-list-item-text">
+                            <h3 class="text-truncate text-spacing md-primary" translate="show_more">Show more</h3>
+                        </div>
+                    </md-list-item>
+                    <!-- CONTACT ITEM -->
+                </md-list>
+                <!-- / CONTACT LIST -->
+                <!-- NO RESULTS -->
+                <md-list-item class="no-results md-white-bg" ng-show="filteredContacts.length === 0">
+                    <p translate="CONTACTS.NO_RESULTS">No results..</p>
+                </md-list-item>
+                <!-- / NO RESULTS -->
+            </div>
+            <!-- / MAIN -->
+        </div>
+    </div>
+</div>

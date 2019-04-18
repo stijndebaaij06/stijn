@@ -1,0 +1,14 @@
+node_modules/
+bower_components/*
+coverage/
+.sass-cache/
+.idea/
+.tmp/
+dist/
+cordova/platforms/*
+!cordova/platforms/platforms.json
+cordova/prepare/*
+cordova/plugins/*
+!cordova/plugins/fetch.json
+!cordova/plugins/android.json
+release & keystore/releases/

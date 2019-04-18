@@ -1,0 +1,22 @@
+<div class="logout">
+    <div class="logout-wrapper">
+
+        <!--
+        <div class="logo">
+            <image src="assets/images/logos/bizkaizen.png"></image>
+        </div>
+-->
+
+<!--            <div class="description" translate="LOGIN_V2.DESCRIPTION">Sed mollis velit facilisis facilisis viverra</div>-->
+
+        <form class="text" name="loginForm" novalidate>
+            <div class="title"><span translate="logout_title"></span></div>
+            <md-button type="submit" ng-click="goBack()" class="submit-button submitbtn" aria-label="LOG OUT" translate-attr-aria-label="logout">
+                <span class="content-on-accent-bg">{{'cancel' | translate}}</span>
+            </md-button>
+            <md-button type="submit" ng-click="signOut()" class="md-raised md-accent submit-button submitbtn" aria-label="LOG OUT" translate-attr-aria-label="logout">
+                <span class="content-on-accent-bg">{{'logout' | translate}}</span>
+            </md-button>
+        </form>
+    </div>
+</div>

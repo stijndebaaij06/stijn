@@ -1,0 +1,16 @@
+1. pull
+2. terminal "cordova platoform remove ios"
+3. terminal "cordova platform add ios"
+4. open xcode and chose the app file in the rightside menu
+5. click [name of app] on the left side
+6. uncheck and check "automatically manage signing"
+7. set signing team to 'wemaron BV' and set deployment target to ios 10.0
+8. switch from the 'general' tab to the 'capabilities' tab and turn push notifications on
+9. go to resources > images.xcassets click on appIcon and remove all icons
+10. drag all "b" icons on the desktop in the "appIcon" to renew the icons to get the correct sizes
+11. go to product > archive
+12. let it run
+13. press "upload to app store"
+14. choose 'weMaron BV' and press "choose"
+15. change bundle identifier from 'nl.wemaron.bribber' to 'nl.wemaron.bribber01'
+16. 

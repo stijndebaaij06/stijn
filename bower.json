@@ -1,0 +1,36 @@
+{
+  "name": "bob",
+  "version": "1.6.9",
+  "dependencies": {
+    "common": "../common"
+  },
+  "resolutions": {
+    "angular": "1.6.9",
+    "d3": "3.5.14",
+    "moment": "2.17.1",
+    "jquery": "3.3.1",
+    "angular-sanitize": "1.6.9",
+    "firebaseui": "^3.1.1",
+    "firebase": "^5.2.0"
+  },
+  "overrides": {
+    "perfect-scrollbar": {
+      "main": [
+        "css/perfect-scrollbar.css",
+        "js/perfect-scrollbar.js"
+      ]
+    },
+    "ng-accordion": {
+      "main": [
+        "ng-accordion/src/ng-accordion.css",
+        "ng-accordion/src/ng-accordion.js"
+      ]
+    },
+    "Sortable": {
+      "main": [
+        "Sortable.js",
+        "ng-sortable.js"
+      ]
+    }
+  }
+}

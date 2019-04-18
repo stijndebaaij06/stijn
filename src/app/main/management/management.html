@@ -1,0 +1,38 @@
+<div id="management" class="page-layout carded left-sidenav" layout="row">
+    <!-- TOP BACKGROUND -->
+    <div class="top-bg md-accent-bg"></div>
+    <!-- / TOP BACKGROUND -->
+    <!-- LEFT SIDENAV -->
+    <md-sidenav class="sidenav" md-is-locked-open="$mdMedia('gt-xs')" md-component-id="main-sidenav" ng-include="'app/main/management/sidenavs/main/main-sidenav.html'" ms-scroll ms-sidenav-helper> </md-sidenav>
+    <!-- / LEFT SIDENAV -->
+    <!-- CENTER -->
+    <div class="center" layout="column" flex>
+        <!-- CONTENT HEADER -->
+        <div class="header" layout="row" layout-align="start center">
+            <div class="search-wrapper md-whiteframe-4dp" flex layout="row" layout-align="start center">
+                <!-- <md-button class="md-icon-button sidenav-toggle" ng-click="vm.toggleSidenav('main-sidenav')" hide-gt-xs aria-label="Toggle sidenav" translate translate-attr-aria-label="MANAGEMENT.TOGGLE_SIDENAV">
+                    <md-icon md-font-icon="icon-menu" class="icon"></md-icon>
+                </md-button> -->
+                <div class="search" flex layout="row" layout-align="start center">
+                    <md-icon md-font-icon="icon-magnify" class="icon s24"></md-icon>
+                    <input flex ng-model="vm.filters.search.name" type="text" placeholder="Search for a task or tag" translate translate-attr-placeholder="search"> </div>
+            </div>
+        </div>
+        <!-- / CONTENT HEADER -->
+        <!-- CONTENT CARD -->
+        <div class="content-card" layout="column" flex>
+            <!-- CONTENT -->
+            <div class="content" layout="row" flex>
+                <!-- Management list pane -->
+                <md-content class="management-list-pane" flex ng-include="'app/main/management/views/users/list-view.html'" ms-scroll="vm.msScrollOptions"> </md-content>
+                <!-- <md-content ng-if="vm.selectedType == 'tags'" class="management-list-pane" flex ng-include="'app/main/management/views/tags/list-view.html'" ms-scroll="vm.msScrollOptions"> </md-content>
+                <md-content ng-if="vm.selectedType == 'rights'" class="management-list-pane" flex ng-include="'app/main/management/views/org-managers/list-view.html'" ms-scroll="vm.msScrollOptions"> </md-content>
+                <md-content ng-if="vm.selectedType == 'com-rights'" class="management-list-pane" flex ng-include="'app/main/management/views/com-managers/list-view.html'" ms-scroll="vm.msScrollOptions"> </md-content> -->
+                <!-- / Management list pane -->
+            </div>
+            <!-- / CONTENT -->
+        </div>
+        <!-- / CONTENT CARDb-->
+    </div>
+    <!-- / CENTER -->
+</div>

@@ -1,0 +1,41 @@
+{
+  "prepare_queue": {
+    "installed": [],
+    "uninstalled": []
+  },
+  "config_munge": {
+    "files": {}
+  },
+  "installed_plugins": {
+    "cordova-plugin-browsertab": {
+      "PACKAGE_NAME": "nl.wemaron.bob.userregistration"
+    },
+    "cordova-plugin-buildinfo": {
+      "PACKAGE_NAME": "nl.wemaron.bob.userregistration"
+    },
+    "cordova-plugin-customurlscheme": {
+      "URL_SCHEME": "nl.wemaron.buurtmobielplanner",
+      "ANDROID_SCHEME": " ",
+      "ANDROID_HOST": " ",
+      "ANDROID_PATHPREFIX": "/",
+      "PACKAGE_NAME": "nl.wemaron.bob.userregistration"
+    },
+    "cordova-plugin-enable-multidex": {
+      "PACKAGE_NAME": "nl.wemaron.bob.userregistration"
+    },
+    "cordova-plugin-inappbrowser": {
+      "PACKAGE_NAME": "nl.wemaron.bob.userregistration"
+    },
+    "cordova-plugin-whitelist": {
+      "PACKAGE_NAME": "nl.wemaron.bob.userregistration"
+    },
+    "cordova-universal-links-plugin": {
+      "PACKAGE_NAME": "nl.wemaron.bob.userregistration"
+    },
+    "phonegap-plugin-barcodescanner": {
+      "ANDROID_SUPPORT_V4_VERSION": "27.+",
+      "PACKAGE_NAME": "nl.wemaron.bob.userregistration"
+    }
+  },
+  "dependent_plugins": {}
+}

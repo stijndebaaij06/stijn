@@ -1,0 +1,25 @@
+//ALWAYS
+1. 	pull and run gulp build
+2. 	terminal "cordova platform remove ios"
+3. 	terminal "cordova platform add ios"
+4. 	open xcode and chose the app file in the rightside menu
+5. 	click [name of app] on the left side
+6. 	disable automatically manage signing then enable it again, set signing team to 'wemaron BV' and set deployment target to ios 10.0
+7. 	switch from the 'general' tab to the 'capabilities' tab and turn push notifications on
+8. 	go to resources(in the file tree) > images.xcassets and remove the default AppIcon and LaunchImage
+	, then rightclick and import the folder with LaunchImage.launchimage and AppIcon.appiconset
+9. go to resources > appname-info.plist and add the following lines:
+KEY										VALUE
+	NSCameraUsageDescription 				${PRODUCT_NAME} uses camera
+	NSContactsUsageDescription				${PRODUCT_NAME} uses contacts
+	FirebaseAppDelegateProxyEnabled			YES
+
+//TO RUN
+10. press run
+
+//TO APPSTORE
+10. remove applinks in front of associated domains.
+10. go to product > archive and let it run
+11. press "upload to app store"
+12. choose 'weMaron BV' and press "choose"
+13. change bundle identifier from 'nl.wemaron.APPNAME' to 'nl.wemaron.APPNAME+VERSION'

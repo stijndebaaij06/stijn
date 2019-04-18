@@ -1,0 +1,99 @@
+{
+  "project_info": {
+    "project_number": "940547515058",
+    "firebase_url": "https://hallo-bob.firebaseio.com",
+    "project_id": "hallo-bob",
+    "storage_bucket": "hallo-bob.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:940547515058:android:e4f52af8c15b9225",
+        "android_client_info": {
+          "package_name": "nl.wemaron.bob.userregistration"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "940547515058-cbrsnq07qo607mh4tqvct0akovbns9p8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDHEADddbq0HS8xsMZvXXWIi7cRB8mlpcI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "940547515058-cbrsnq07qo607mh4tqvct0akovbns9p8.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "940547515058-e08ftgainntg78loolasqvva2eph9p6n.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "nl.wemaron.bobdebot"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:940547515058:android:9b1094b282c8a375",
+        "android_client_info": {
+          "package_name": "nl.wemaron.bobdebot"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "940547515058-k9ku5r65vmnkvg4otpts3e4vnjq48gnr.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "nl.wemaron.bobdebot",
+            "certificate_hash": "9381ff0b2846287c765321e8dec99ebbe59d8ec8"
+          }
+        },
+        {
+          "client_id": "940547515058-04il7tah2t7cmviri7fjp8nvp1u18p9q.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "nl.wemaron.bobdebot",
+            "certificate_hash": "019f022df0bfa2dfe5e01591fddb98b8b0ee29ef"
+          }
+        },
+        {
+          "client_id": "940547515058-cbrsnq07qo607mh4tqvct0akovbns9p8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDHEADddbq0HS8xsMZvXXWIi7cRB8mlpcI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "940547515058-cbrsnq07qo607mh4tqvct0akovbns9p8.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "940547515058-e08ftgainntg78loolasqvva2eph9p6n.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "nl.wemaron.bobdebot"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
