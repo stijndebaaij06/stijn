@@ -2,7 +2,8 @@
   "name": "bob",
   "version": "1.6.9",
   "dependencies": {
-    "common": "../common"
+    "common": "../common",
+    "angular-audio": "^1.7.4"
   },
   "resolutions": {
     "angular": "1.6.9",

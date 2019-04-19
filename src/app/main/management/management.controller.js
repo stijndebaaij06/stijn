@@ -2,7 +2,7 @@
     'use strict';
     angular.module('app.management').controller('ManagementController', ManagementController);
     /** @ngInject */
-    function ManagementController($document, $mdDialog, $mdSidenav, $timeout, ref, $state, $scope, $filter, store, data) {
+    function ManagementController($document, $mdDialog, $mdSidenav, $timeout, ref, $state, $q, $filter, store, data) {
         var vm = this;
         var $translate = $filter('translate');
         // Data
@@ -256,69 +256,149 @@
          * @param ev
          * @param task
          */
-        vm.openEditDialog = function (ev, type, itemId) {
-            $mdDialog.show({
-                controller: 'TaskDialogController'
-                , controllerAs: 'vm'
-                , templateUrl: 'app/main/management/dialogs/task/task-dialog.html'
-                , parent: angular.element($document.body)
-                , targetEvent: ev
-                , clickOutsideToClose: false
-                , locals: {
-                    ItemId: itemId
-                    , Messages: vm.messages
-                    , Tags: vm.tags
-                    , Type: type
-                    , event: ev
-                    , CopyData: undefined
-                    , Organisation: vm.organisation
-                    , User: vm.user
-                    , Access: vm.access
+        vm.scanUser = function () {
+            vm.scan().then(function (success) {
+                console.log('scan', success);
+                //vm.handlePayment();
+            }).catch(function (error) {
+                console.log('error scanning user!', error);
+            })
+        }
+        vm.scan = function () {
+            return $q(function (resolve, reject) {
+                if (!window.cordova) {
+                    ref.db.collection('users').doc(vm.userId).get().then(function (doc) {
+                        if (doc.exists) {
+                            var userData = doc.data();
+                            userData = doc.id;
+                            resolve(userData);
+                        }
+                        else {
+                            // ngAudio.play("assets/sounds/error.wav");
+                            reject('user not found');
+                        }
+                    }).catch(function (error) {
+                        reject(error);
+                    });
+                }
+                else {
+                    cordova.plugins.barcodeScanner.scan(function (result) {
+                        try {
+                            let url = new URL(result.text);
+                            let params = new URLSearchParams(url.search.slice(1));
+                            var userId = params.get('id')
+                        }
+                        catch (err) {
+                            $timeout(function () {
+                                vm.scanFailure = true;
+                                console.log('card not recognized as valid URL');
+                                // ngAudio.play("assets/sounds/error.wav");
+                                reject('card not recognized as valid URL');
+                            })
+                        }
+                        if (!userId) {
+                            $timeout(function () {
+                                vm.scanFailure = true;
+                                console.log('id not recognized');
+                                // ngAudio.play("assets/sounds/error.wav");
+                                reject('id not recognized');
+                            })
+                        }
+                        ref.db.collection('users').doc(userId).get().then(function (doc) {
+                            if (doc.exists) {
+                                var userData = doc.data();
+                                userData = doc.id;
+                                resolve(userData);
+                            }
+                            else {
+                                // ngAudio.play("assets/sounds/error.wav");
+                                reject('user not found');
+                            }
+                        }).catch(function (error) {
+                            reject(error);
+                        });
+                    }, function (error) {
+                        alert("Scanning failed: " + error);
+                        reject(error);
+                    }, {
+                        preferFrontCamera: false, // iOS and Android
+                        showFlipCameraButton: false, // iOS and Android
+                        showTorchButton: true, // iOS and Android
+                        torchOn: false, // Android, launch with the torch switched on (if available)
+                        saveHistory: true, // Android, save scan history (default false)
+                        prompt: "Place a barcode inside the scan area", // Android
+                        resultDisplayDuration: 500, // Android, display scanned text for X ms. 0 suppresses it entirely, default 1500
+                        formats: "QR_CODE", // default: all but PDF_417 and RSS_EXPANDED
+                        //          orientation : "landscape", // Android only (portrait|landscape), default unset so it rotates with the device
+                        disableAnimations: true, // iOS
+                        disableSuccessBeep: false // iOS and Android
+                    });
                 }
             });
         }
-        vm.openUserDialog = function (ev, type, user) {
-            if (_.chain(user).get('id').value() == vm.userId) {
-                $scope.showToast('cant_edit_yourself');
-            }
-            else {
-                if (type == 'organisation') {
-                    $mdDialog.show({
-                        controller: 'OrganisationManagersDialogController'
-                        , controllerAs: 'vm'
-                        , templateUrl: 'app/main/management/dialogs/org-manager/org-manager-dialog.html'
-                        , parent: angular.element($document.body)
-                        , targetEvent: ev
-                        , clickOutsideToClose: false
-                        , locals: {
-                            ItemId: _.chain(user).get('id').value()
-                            , UserData: user
-                            , Messages: vm.messages
-                            , Tags: vm.tags
-                            , event: ev
-                            , YourUserId: vm.userId
-                        }
-                    });
-                } else if (type == 'community') {
-                    $mdDialog.show({
-                        controller: 'CommunityManagersDialogController'
-                        , controllerAs: 'vm'
-                        , templateUrl: 'app/main/management/dialogs/com-manager/com-manager-dialog.html'
-                        , parent: angular.element($document.body)
-                        , targetEvent: ev
-                        , clickOutsideToClose: false
-                        , locals: {
-                            ItemId: _.chain(user).get('id').value()
-                            , UserData: user
-                            , Messages: vm.messages
-                            , Tags: vm.tags
-                            , event: ev
-                            , YourUserId: vm.userId
-                        }
-                    });
-                }
-            }
-        }
+        // vm.openEditDialog = function (ev, type, itemId) {
+        //     $mdDialog.show({
+        //         controller: 'TaskDialogController'
+        //         , controllerAs: 'vm'
+        //         , templateUrl: 'app/main/management/dialogs/task/task-dialog.html'
+        //         , parent: angular.element($document.body)
+        //         , targetEvent: ev
+        //         , clickOutsideToClose: false
+        //         , locals: {
+        //             ItemId: itemId
+        //             , Messages: vm.messages
+        //             , Tags: vm.tags
+        //             , Type: type
+        //             , event: ev
+        //             , CopyData: undefined
+        //             , Organisation: vm.organisation
+        //             , User: vm.user
+        //             , Access: vm.access
+        //         }
+        //     });
+        // }
+        // vm.openUserDialog = function (ev, type, user) {
+        //     if (_.chain(user).get('id').value() == vm.userId) {
+        //         $scope.showToast('cant_edit_yourself');
+        //     }
+        //     else {
+        //         if (type == 'organisation') {
+        //             $mdDialog.show({
+        //                 controller: 'OrganisationManagersDialogController'
+        //                 , controllerAs: 'vm'
+        //                 , templateUrl: 'app/main/management/dialogs/org-manager/org-manager-dialog.html'
+        //                 , parent: angular.element($document.body)
+        //                 , targetEvent: ev
+        //                 , clickOutsideToClose: false
+        //                 , locals: {
+        //                     ItemId: _.chain(user).get('id').value()
+        //                     , UserData: user
+        //                     , Messages: vm.messages
+        //                     , Tags: vm.tags
+        //                     , event: ev
+        //                     , YourUserId: vm.userId
+        //                 }
+        //             });
+        //         } else if (type == 'community') {
+        //             $mdDialog.show({
+        //                 controller: 'CommunityManagersDialogController'
+        //                 , controllerAs: 'vm'
+        //                 , templateUrl: 'app/main/management/dialogs/com-manager/com-manager-dialog.html'
+        //                 , parent: angular.element($document.body)
+        //                 , targetEvent: ev
+        //                 , clickOutsideToClose: false
+        //                 , locals: {
+        //                     ItemId: _.chain(user).get('id').value()
+        //                     , UserData: user
+        //                     , Messages: vm.messages
+        //                     , Tags: vm.tags
+        //                     , event: ev
+        //                     , YourUserId: vm.userId
+        //                 }
+        //             });
+        //         }
+        //     }
+        // }
         var timeout;
         vm.searchUpdate = function (searched) {
             if (searched) vm.limitAmount = 0;
