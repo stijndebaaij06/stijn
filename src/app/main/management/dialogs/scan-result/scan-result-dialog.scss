@@ -1,0 +1,172 @@
+md-dialog {
+
+    &.scan-result-dialog {
+        max-width: 720px;
+        width: 720px;
+
+        md-dialog-content {
+            display: block;
+            position: relative;
+        }
+
+        md-toolbar {
+
+            .title {
+                font-size: 17px;
+            }
+        }
+
+        md-input-container {
+            textarea {
+                min-height: 150px;
+            }
+        }
+        
+        .notification-value-input {
+            width: 45px;
+        }
+
+        .notes {
+
+            > label {
+                color: rgba(0, 0, 0, 0.54);
+            }
+
+            .mce-tinymce {
+                margin-top: 8px;
+            }
+            
+            textarea {
+                width: 100%;
+            }
+        }
+        .question-type {
+            width: 100%;
+//            label {
+//                font-size: 12px;
+//                color: rgba(0, 0, 0, 0.54);
+//            }
+        }
+        .tags {
+            width: 100%;
+            margin: 8px 0;
+
+//            label {
+//                font-size: 12px;
+//                color: rgba(0, 0, 0, 0.54);
+//            }
+
+            .md-chips {
+
+                .md-chip {
+
+                    md-chip-template {
+
+                        .color {
+                            display: inline-block;
+                            position: relative;
+                            width: 8px;
+                            height: 8px;
+                            top: -1px;
+                            border-radius: 50%;
+                            margin: -2px 4px 0 0;
+                        }
+                    }
+                }
+            }
+        }
+
+        .attachment-list {
+            font-size: 13px;
+            padding-top: 16px;
+
+            .attachment {
+                background-color: rgba(0, 0, 0, 0.08);
+                border: 1px solid rgba(0, 0, 0, 0.12);
+                padding-left: 16px;
+                margin-top: 8px;
+                border-radius: 2px;
+
+                .filename {
+                    font-weight: 500;
+                }
+
+                // .size {
+
+                // }
+
+                .md-button {
+                    margin: 0;
+                }
+
+                &:last-child {
+                    margin-bottom: 0;
+                }
+            }
+        }
+
+        .question-input {
+            min-height: 75px;
+            height: 75px;
+        }
+
+        md-dialog-actions {
+            position: relative;
+            overflow-y: hidden;
+            overflow-x: auto;
+            justify-content: space-between;
+            background-color: rgba(0, 0, 0, 0.03);
+            border-top: 1px solid rgba(0, 0, 0, 0.12);
+        }
+    }
+}
+
+mentio-menu {
+    ul {
+        list-style-type: none;
+        margin-left: -16px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25);
+        min-width: 213px;
+        cursor: pointer;
+        background-color: white;
+        padding: 0;
+        li {
+            font-size: 14px;
+            overflow: hidden;
+            padding: 0 15px;
+            line-height: 48px;
+            height: 48px;
+            -webkit-transition: background 0.15s linear;
+            transition: background 0.15s linear;
+            margin: 0;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            a {
+                color: rgb(33,33,33) !important;
+            }
+        }
+        .active {
+            background-color: rgb(238,238,238);
+        }
+    }
+}
+// RESPONSIVE
+@media screen and (max-width: $layout-breakpoint-md) {
+
+    md-dialog {
+
+        &.scan-result-dialog {
+            width: 80%;
+        }
+    }
+}
+
+@media screen and (max-width: $layout-breakpoint-sm) {
+
+    md-dialog {
+
+        &.scan-result-dialog {
+            width: 90%;
+        }
+    }
+}

@@ -257,12 +257,69 @@
          * @param task
          */
         vm.scanUser = function () {
-            vm.scan().then(function (success) {
-                console.log('scan', success);
+            vm.scan().then(function (userData) {
+                console.log('scan result userData', userData);
                 //vm.handlePayment();
+                vm.processScannedUser(userData).then(status => {
+                    //status.code, 0=BLOCK, 1=CHECK, 2=OK
+                    //pass status to new dialog including actions to proceed.
+                    console.log('status', status);
+                    openScanResultDialog('', status, userData);
+                })
+                
             }).catch(function (error) {
                 console.log('error scanning user!', error);
             })
+        }
+        vm.processScannedUser = function(userData){
+            return $q(function (resolve, reject) {
+                var status = {}; //status.code, 0=BLOCK, 1=CHECK, 2=OK
+                //status.desc = 'additional info to tell the user'
+                //TODO: RED, check for blocked status!
+                console.log('processScannedUser userData', userData);
+                if(!userData.address){
+                //userData incomplete, ORANGE status!
+                status.code = 1;
+                status.desc = 'user_data_incomplete';
+                console.log('processScannedUser no address');
+                return resolve(status);
+                }
+                var orgUserRef = ref.organisation.collection('users').doc(userData.id);
+                orgUserRef.get().then(doc => {
+                if(!doc.exists){
+                    //user doesnt exist, ORANGE status
+                    console.log('processScannedUser no org userdata');
+                    //TODO: check address
+                    status.code = 1;
+                    status.desc = 'check_user_address';
+                    return resolve(status);
+                }else{
+                    var orgUserDoc = doc.data();
+                    console.log('processScannedUser orgUserDoc', orgUserDoc);
+                    if(orgUserDoc.blockUntil){
+                        //status BLOCK
+                    }
+                    if(orgUserDoc.lastAddressCheck !== userData.lastAddressChange){
+                        //TODO: check address
+                        status.code = 1;
+                        status.desc = 'check_user_address';
+                        return resolve(status);
+                    }else{
+                        //TODO: green, proceed check-in
+                        var checkIn = {};
+                        checkIn.address = userData.address;
+                        checkIn.date = new Date();
+                        checkIn.firstName = userData.firstName;
+                        checkIn.userRef = ref.db.collection('users').doc(userData.id);
+                        ref.organisation.collection('attendance').doc().set(checkIn);
+                        status.code = 2;
+                        status.desc = 'done';
+                        return resolve(status);
+                    }
+                }
+                })
+            });
+            
         }
         vm.scan = function () {
             return $q(function (resolve, reject) {
@@ -270,7 +327,6 @@
                     ref.db.collection('users').doc(vm.userId).get().then(function (doc) {
                         if (doc.exists) {
                             var userData = doc.data();
-                            userData = doc.id;
                             resolve(userData);
                         }
                         else {
@@ -287,6 +343,7 @@
                             let url = new URL(result.text);
                             let params = new URLSearchParams(url.search.slice(1));
                             var userId = params.get('id')
+                            console.log('scan userId', userId);
                         }
                         catch (err) {
                             $timeout(function () {
@@ -307,7 +364,8 @@
                         ref.db.collection('users').doc(userId).get().then(function (doc) {
                             if (doc.exists) {
                                 var userData = doc.data();
-                                userData = doc.id;
+                                userData.id = userId;
+                                console.log('scan userData', userData);
                                 resolve(userData);
                             }
                             else {
@@ -336,69 +394,21 @@
                 }
             });
         }
-        // vm.openEditDialog = function (ev, type, itemId) {
-        //     $mdDialog.show({
-        //         controller: 'TaskDialogController'
-        //         , controllerAs: 'vm'
-        //         , templateUrl: 'app/main/management/dialogs/task/task-dialog.html'
-        //         , parent: angular.element($document.body)
-        //         , targetEvent: ev
-        //         , clickOutsideToClose: false
-        //         , locals: {
-        //             ItemId: itemId
-        //             , Messages: vm.messages
-        //             , Tags: vm.tags
-        //             , Type: type
-        //             , event: ev
-        //             , CopyData: undefined
-        //             , Organisation: vm.organisation
-        //             , User: vm.user
-        //             , Access: vm.access
-        //         }
-        //     });
-        // }
-        // vm.openUserDialog = function (ev, type, user) {
-        //     if (_.chain(user).get('id').value() == vm.userId) {
-        //         $scope.showToast('cant_edit_yourself');
-        //     }
-        //     else {
-        //         if (type == 'organisation') {
-        //             $mdDialog.show({
-        //                 controller: 'OrganisationManagersDialogController'
-        //                 , controllerAs: 'vm'
-        //                 , templateUrl: 'app/main/management/dialogs/org-manager/org-manager-dialog.html'
-        //                 , parent: angular.element($document.body)
-        //                 , targetEvent: ev
-        //                 , clickOutsideToClose: false
-        //                 , locals: {
-        //                     ItemId: _.chain(user).get('id').value()
-        //                     , UserData: user
-        //                     , Messages: vm.messages
-        //                     , Tags: vm.tags
-        //                     , event: ev
-        //                     , YourUserId: vm.userId
-        //                 }
-        //             });
-        //         } else if (type == 'community') {
-        //             $mdDialog.show({
-        //                 controller: 'CommunityManagersDialogController'
-        //                 , controllerAs: 'vm'
-        //                 , templateUrl: 'app/main/management/dialogs/com-manager/com-manager-dialog.html'
-        //                 , parent: angular.element($document.body)
-        //                 , targetEvent: ev
-        //                 , clickOutsideToClose: false
-        //                 , locals: {
-        //                     ItemId: _.chain(user).get('id').value()
-        //                     , UserData: user
-        //                     , Messages: vm.messages
-        //                     , Tags: vm.tags
-        //                     , event: ev
-        //                     , YourUserId: vm.userId
-        //                 }
-        //             });
-        //         }
-        //     }
-        // }
+         function openScanResultDialog (ev, status, scannedUser) {
+                $mdDialog.show({
+                    controller: 'ScanResultDialogController'
+                    , controllerAs: 'vm'
+                    , templateUrl: 'app/main/management/dialogs/scan-result/scan-result-dialog.html'
+                    , parent: angular.element($document.body)
+                    , targetEvent: ev
+                    , clickOutsideToClose: false
+                    , locals: {
+                        status: status
+                        , event: ev
+                        , scannedUser: scannedUser
+                    }
+                });
+            }
         var timeout;
         vm.searchUpdate = function (searched) {
             if (searched) vm.limitAmount = 0;
@@ -411,7 +421,7 @@
                         // console.log('community', community);
                         // console.log(community.communityData.name.toLowerCase().indexOf(search) !== -1)
                         try {
-                            if (user.name.toLowerCase().indexOf(search) !== -1) return true;
+                            if (user.firstName.toLowerCase().indexOf(search) !== -1) return true;
                             if (user.address.toLowerCase().indexOf(search) !== -1) return true;
                             return false;
         

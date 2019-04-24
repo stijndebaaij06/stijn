@@ -1,0 +1,66 @@
+<md-dialog class="scan-result-dialog" aria-label="New message">
+    <form name="messageForm" class="md-inline-form" novalidate>
+        <md-toolbar class="md-accent">
+            <div class="md-toolbar-tools" layout="row" layout-align="space-between center"> <span
+                    ng-if="vm.type == 'messages'" class="title">{{'edit_message' | translate}}</span> <span
+                    ng-if="vm.type == 'tags'" class="title">{{'edit_tag' | translate}}</span>
+                <md-button class="md-icon-button" ng-click="vm.closeDialog()">
+                    <md-icon md-font-icon="icon-close" aria-label="Close dialog"></md-icon>
+                </md-button>
+            </div>
+        </md-toolbar>
+        <md-dialog-content ms-scroll>
+            <div class="scan-result-content" ng-if="vm.tagSaveData">
+                <md-input-container class="md-block">
+                    <label translate="name">Name</label>
+                    <input  ng-disabled="vm.access.community.editTags !== true" name="name" ng-model="vm.tagSaveData.name" required md-autofocus>
+                    <div ng-messages="messageForm.name.$error" ng-show="messageForm.name.$touched" role="alert">
+                        <div ng-message="required"> <span translate="required">Name field is required</span> </div>
+                    </div>
+                </md-input-container>
+                <md-input-container class="md-block">
+                    <label translate="color">Color</label>
+                    <md-select ng-disabled="vm.access.community.editTags !== true" ng-model="vm.tagSaveData.color" required placeholder="Select color">
+                        <md-option value="red"> {{'red' | translate}} </md-option>
+                        <md-option value="fuchsia"> {{'purple' | translate}} </md-option>
+                        <md-option value="blue"> {{'blue' | translate}} </md-option>
+                        <md-option value="cyan"> {{'cyan' | translate}} </md-option>
+                        <md-option value="lime"> {{'green' | translate}} </md-option>
+                        <md-option value="yellow"> {{'yellow' | translate}} </md-option>
+                    </md-select>
+                </md-input-container>
+                <md-input-container class="md-block">
+                    <label translate="question">Question</label>
+                    <textarea  ng-disabled="vm.access.community.editTags !== true"
+                        ng-pattern="/^[a-zA-Z _\\\/.,’!?'-\d+@èéàï€:()]*(?:[a-zA-Z _\\\/.,’!?'-\d+@èéàï€:()]*\r?\n[a-zA-Z _\\\/.,’!?'-\d+@èéà€ï:()]*)*$/"
+                        ng-trim="false" name="question" md-no-resize class="question-input" md-maxlength="160"
+                        ng-model="vm.tagSaveData.question" required md-autofocus></textarea>
+                    <div ng-messages="messageForm.question.$error" ng-show="messageForm.question.$touched" role="alert">
+                        <div ng-message="md-maxlength"> <span translate="too_long">Field uses too many characters</span>
+                        </div>
+                        <div ng-message="required"> <span translate="required">Field is required</span> </div>
+                        <div ng-message="pattern"> <span translate="invalid_characters">Pattern Error</span> </div>
+                    </div>
+                </md-input-container>
+            </div>
+        </md-dialog-content>
+        <md-dialog-actions layout="row" layout-align="space-between center">
+            <div layout="row" layout-align="start center">
+                <md-button type="submit" ng-if="!vm.newItem" ng-click="vm.saveItem()"
+                    class="send-button md-accent md-raised" ng-disabled="messageForm.$invalid || messageForm.$pristine"
+                    aria-label="SAVE" translate="save" translate-attr-aria-label="save"> SAVE </md-button>
+                <md-button type="submit" ng-if="vm.newItem" ng-click="vm.saveItem()"
+                    class="send-button md-accent md-raised" ng-disabled="messageForm.$invalid || messageForm.$pristine"
+                    aria-label="Add message" translate="add" translate-attr-aria-label="add"> ADD MESSAGE </md-button>
+
+            </div>
+            <div layout="row">
+                <md-button class="md-icon-button" ng-click="vm.deleteMessage($event)" aria-label="Delete" translate
+                    translate-attr-aria-label="MANAGEMENT.DELETE">
+                    <md-icon md-font-icon="icon-delete"></md-icon>
+                    <md-tooltip><span translate="delete">DELETE</span></md-tooltip>
+                </md-button>
+            </div>
+        </md-dialog-actions>
+    </form>
+</md-dialog>
