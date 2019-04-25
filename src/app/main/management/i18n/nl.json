@@ -99,4 +99,7 @@
     , "view": "Inzien"
     , "user_invited": "De uitnodiging is verstuurd."
     , "scan_user": "Gebruiker scannen"
+    , "scanned_user": "Gescande gebruiker"
+    , "no_user_address": "Geen adres ingevult"
+    , "check_user_address": "Check het adres"
 }

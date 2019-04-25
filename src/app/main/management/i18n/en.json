@@ -99,4 +99,7 @@
     , "view": "read"
     , "user_invited": "User invited."
     , "scan_user": "Scan user"
+    , "scanned_user": "Scanned user"
+    , "no_user_address": "No address entered"
+    , "check_user_address": "Check user address"
 }

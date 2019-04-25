@@ -271,18 +271,18 @@
                 console.log('error scanning user!', error);
             })
         }
-        vm.processScannedUser = function(userData){
+        vm.processScannedUser = function (userData){
             return $q(function (resolve, reject) {
                 var status = {}; //status.code, 0=BLOCK, 1=CHECK, 2=OK
                 //status.desc = 'additional info to tell the user'
                 //TODO: RED, check for blocked status!
                 console.log('processScannedUser userData', userData);
                 if(!userData.address){
-                //userData incomplete, ORANGE status!
-                status.code = 1;
-                status.desc = 'user_data_incomplete';
-                console.log('processScannedUser no address');
-                return resolve(status);
+                    //userData incomplete, ORANGE status!
+                    status.code = 1;
+                    status.desc = 'no_user_address';
+                    console.log('processScannedUser no address');
+                    return resolve(status);
                 }
                 var orgUserRef = ref.organisation.collection('users').doc(userData.id);
                 orgUserRef.get().then(doc => {
@@ -293,7 +293,7 @@
                     status.code = 1;
                     status.desc = 'check_user_address';
                     return resolve(status);
-                }else{
+                } else {
                     var orgUserDoc = doc.data();
                     console.log('processScannedUser orgUserDoc', orgUserDoc);
                     if(orgUserDoc.blockUntil){
@@ -309,11 +309,10 @@
                         var checkIn = {};
                         checkIn.address = userData.address;
                         checkIn.date = new Date();
-                        checkIn.firstName = userData.firstName;
-                        checkIn.userRef = ref.db.collection('users').doc(userData.id);
+                        checkIn.name = userData.firstName;
                         ref.organisation.collection('attendance').doc().set(checkIn);
-                        status.code = 2;
-                        status.desc = 'done';
+                        status.code = 0;
+                        status.desc = 'success';
                         return resolve(status);
                     }
                 }
@@ -421,8 +420,10 @@
                         // console.log('community', community);
                         // console.log(community.communityData.name.toLowerCase().indexOf(search) !== -1)
                         try {
-                            if (user.firstName.toLowerCase().indexOf(search) !== -1) return true;
-                            if (user.address.toLowerCase().indexOf(search) !== -1) return true;
+                            if (user) {
+                                if (user.name && user.name.toLowerCase().indexOf(search) !== -1) return true;
+                                if (user.address && user.address.toLowerCase().indexOf(search) !== -1) return true;
+                            }
                             return false;
         
                         }
