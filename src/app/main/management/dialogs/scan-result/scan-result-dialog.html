@@ -1,24 +1,40 @@
 <md-dialog class="scan-result-dialog" aria-label="New message">
     <form name="messageForm" class="md-inline-form" novalidate>
         <md-dialog-content ms-scroll>
-            <div class="scan-result-content">
+            <div class="placeholder" ng-if="vm.loading">
+                <div class="spinner-wrapper-custom">
+                    <div class="spinner">
+                        <div class="inner">
+                            <div class="gap"></div>
+                            <div class="left">
+                                <div class="half-circle"></div>
+                            </div>
+                            <div class="right">
+                                <div class="half-circle"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="scan-result-content" ng-show="!vm.loading">
                 <h2>{{'name' | translate}}</h3>
-                <h3>{{vm.scannedUser.firstName}} {{vm.scannedUser.lastName}}</h3>
-                <h2 ng-show="vm.scannedUser.address">{{'address' | translate}}</h3>
-                <h3 ng-show="vm.scannedUser.address">{{vm.scannedUser.address}}</h3>
-                <md-icon ng-show="vm.status.code == 0" style="color: greenyellow" md-font-icon="icon-check"></md-icon>
-                <md-icon ng-show="vm.status.code == 1" style="color: orange" md-font-icon="icon-close"></md-icon>
-                <h3 ng-show="vm.status.code == 1">{{vm.status.message}}</h3>
+                <h3>{{vm.checkIn.name}}</h3>
+                <h2 ng-show="vm.checkIn.address">{{'address' | translate}}</h3>
+                <h3 ng-show="vm.checkIn.address">{{vm.checkIn.address}}</h3>
+                <md-icon ng-show="vm.checkIn.status.code == 0" style="color: greenyellow" md-font-icon="icon-check"></md-icon>
+                <md-icon ng-show="vm.checkIn.status.code == 1" style="color: orange" md-font-icon="icon-close"></md-icon>
+                <md-icon ng-show="vm.checkIn.status.code == 2" style="color: red" md-font-icon="icon-close"></md-icon>
+                <h3 ng-show="vm.checkIn.status.code == 1">{{vm.checkIn.status.message}}</h3>
             </div>
         </md-dialog-content>
         <md-dialog-actions layout="row" layout-align="space-between center">
             <div layout="row" layout-align="start center">
-                <!-- <md-button type="submit" ng-if="!vm.newItem" ng-click="vm.saveItem()"
-                    class="send-button md-accent md-raised" ng-disabled="messageForm.$invalid || messageForm.$pristine"
-                    aria-label="SAVE" translate="save" translate-attr-aria-label="save"> SAVE </md-button>
-                <md-button type="submit" ng-if="vm.newItem" ng-click="vm.saveItem()"
-                    class="send-button md-accent md-raised" ng-disabled="messageForm.$invalid || messageForm.$pristine"
-                    aria-label="Add message" translate="add" translate-attr-aria-label="add"> ADD MESSAGE </md-button> -->
+                <!-- <md-button type="submit" ng-if="!vm.newItem" ng-click="vm.saveItem()" class="send-button md-accent" aria-label="Add message" translate="add"> 
+                    ADD MESSAGE 
+                </md-button> -->
+                <md-button type="submit" ng-click="vm.toggleAccess()" class="send-button md-warn md-raised" aria-label="deny access" translate="deny_access"> 
+                    Deny Access 
+                </md-button>
             </div>
             <div layout="row">
                 <md-button class="md-icon-button" ng-click="vm.closeDialog()" aria-label="close">

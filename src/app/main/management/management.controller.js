@@ -256,15 +256,15 @@
          * @param ev
          * @param task
          */
-        vm.scanUser = function () {
+        vm.scanUser = function (ev) {
             vm.scan().then(function (userData) {
                 console.log('scan result userData', userData);
                 //vm.handlePayment();
-                vm.processScannedUser(userData).then(status => {
-                    //status.code, 0=BLOCK, 1=CHECK, 2=OK
+                vm.processScannedUser(userData).then(checkIn => {
+                    //status.code, 0=OK, 1=CHECK, 2=BLOCK
                     //pass status to new dialog including actions to proceed.
-                    console.log('status', status);
-                    openScanResultDialog('', status, userData);
+                    console.log('checkIn', checkIn);
+                    vm.openScanResultDialog(ev, checkIn, true);
                 })
                 
             }).catch(function (error) {
@@ -273,52 +273,83 @@
         }
         vm.processScannedUser = function (userData){
             return $q(function (resolve, reject) {
-                var status = {}; //status.code, 0=BLOCK, 1=CHECK, 2=OK
+                var status = {};
+                //status.code, 0=OK, 1=CHECK, 2=BLOCK
                 //status.desc = 'additional info to tell the user'
                 //TODO: RED, check for blocked status!
                 console.log('processScannedUser userData', userData);
-                if(!userData.address){
+                if (!userData.address) {
                     //userData incomplete, ORANGE status!
                     status.code = 1;
                     status.desc = 'no_user_address';
                     console.log('processScannedUser no address');
-                    return resolve(status);
+                    vm.setCheckIn(status, userData).then(checkInObj => {
+                        console.log('checkInObj', checkInObj);
+                        return resolve(checkInObj);
+                    })
                 }
                 var orgUserRef = ref.organisation.collection('users').doc(userData.id);
                 orgUserRef.get().then(doc => {
-                if(!doc.exists){
-                    //user doesnt exist, ORANGE status
-                    console.log('processScannedUser no org userdata');
-                    //TODO: check address
-                    status.code = 1;
-                    status.desc = 'check_user_address';
-                    return resolve(status);
-                } else {
-                    var orgUserDoc = doc.data();
-                    console.log('processScannedUser orgUserDoc', orgUserDoc);
-                    if(orgUserDoc.blockUntil){
-                        //status BLOCK
-                    }
-                    if(orgUserDoc.lastAddressCheck !== userData.lastAddressChange){
+                    if (!doc.exists) {
+                        //user doesnt exist, ORANGE status
+                        console.log('processScannedUser no org userdata');
                         //TODO: check address
                         status.code = 1;
                         status.desc = 'check_user_address';
-                        return resolve(status);
-                    }else{
-                        //TODO: green, proceed check-in
-                        var checkIn = {};
-                        checkIn.address = userData.address;
-                        checkIn.date = new Date();
-                        checkIn.name = userData.firstName;
-                        ref.organisation.collection('attendance').doc().set(checkIn);
-                        status.code = 0;
-                        status.desc = 'success';
-                        return resolve(status);
+                        vm.setCheckIn(status, userData).then(checkInObj => {
+                            //pass status to new dialog including actions to proceed.
+                            console.log('checkInObj', checkInObj);
+                            return resolve(checkInObj);
+                        })
+                    } else {
+                        var orgUserDoc = doc.data();
+                        console.log('processScannedUser orgUserDoc', orgUserDoc);
+                        if (orgUserDoc.accessDenied) {
+                            status.code = 2;
+                            status.desc = 'user_blocked';
+                            vm.setCheckIn(status, userData).then(checkInObj => {
+                                console.log('checkInObj', checkInObj);
+                                return resolve(checkInObj);
+                            })
+                            //status BLOCK
+                        }
+                        if (orgUserDoc.lastAddressCheck !== userData.lastAddressChange) {
+                            //TODO: check address
+                            status.code = 1;
+                            status.desc = 'check_user_address';
+                            vm.setCheckIn(status, userData).then(checkInObj => {
+                                console.log('checkInObj', checkInObj);
+                                return resolve(checkInObj);
+                            })
+                        } else {
+                            status.code = 0;
+                            status.desc = 'success';
+                            vm.setCheckIn(status, userData).then(checkInObj => {
+                                console.log('checkInObj', checkInObj);
+                                return resolve(checkInObj);
+                            })
+                        }
                     }
-                }
                 })
             });
-            
+        }
+        vm.setCheckIn = function (status, userData) {
+            return $q(function (resolve, reject) {
+                var checkIn = {};
+                checkIn.status = status;
+                if (userData.phone) checkIn.phone = userData.phone;
+                if (userData.address) checkIn.address = userData.address;
+                checkIn.date = new Date();
+                checkIn.name = userData.firstName;
+                if (userData.lastName) checkIn.name = checkIn.name + ' ' + userData.lastName;
+                checkIn.userRef = ref.db.collection('users').doc(userData.id);
+                checkIn.ref = ref.organisation.collection('attendance').doc();
+                checkIn.ref.set(checkIn).then(function () {
+                    return resolve(checkIn);
+                }).catch(function (error) {
+                    console.log('error', error);
+                });
+            });
         }
         vm.scan = function () {
             return $q(function (resolve, reject) {
@@ -326,6 +357,7 @@
                     ref.db.collection('users').doc(vm.userId).get().then(function (doc) {
                         if (doc.exists) {
                             var userData = doc.data();
+                            userData.id = doc.id;
                             resolve(userData);
                         }
                         else {
@@ -393,21 +425,21 @@
                 }
             });
         }
-         function openScanResultDialog (ev, status, scannedUser) {
-                $mdDialog.show({
-                    controller: 'ScanResultDialogController'
-                    , controllerAs: 'vm'
-                    , templateUrl: 'app/main/management/dialogs/scan-result/scan-result-dialog.html'
-                    , parent: angular.element($document.body)
-                    , targetEvent: ev
-                    , clickOutsideToClose: false
-                    , locals: {
-                        status: status
-                        , event: ev
-                        , scannedUser: scannedUser
-                    }
-                });
-            }
+         vm.openScanResultDialog = function (ev, checkIn, newEntry) {
+            $mdDialog.show({
+                controller: 'ScanResultDialogController'
+                , controllerAs: 'vm'
+                , templateUrl: 'app/main/management/dialogs/scan-result/scan-result-dialog.html'
+                , parent: angular.element($document.body)
+                , targetEvent: ev
+                , clickOutsideToClose: false
+                , locals: {
+                    event: ev
+                    , checkIn: checkIn
+                    , newEntry: newEntry
+                }
+            });
+        }
         var timeout;
         vm.searchUpdate = function (searched) {
             if (searched) vm.limitAmount = 0;

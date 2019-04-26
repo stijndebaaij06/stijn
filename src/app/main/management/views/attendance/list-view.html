@@ -1,5 +1,5 @@
 <!-- MANAGEMENT LIST ITEMS -->
-<div class="management-items" ng-sortable="vm.sortableOptions" ng-class="{'sortable': vm.order === ''}">
+<div class="management-items">
     <div ng-if="vm.loadingAttendance" class="management-item inactive">
         <div layout="row" layout-align="start center" flex>
             <div class="info" flex>
@@ -9,13 +9,13 @@
             </div>
         </div>
     </div>
-    <md-list-item ng-show="!vm.loadingAttendance" class="extra-item md-white-bg" ng-click="vm.scanUser()">
+    <md-list-item ng-show="!vm.loadingAttendance" class="extra-item md-white-bg" ng-click="vm.scanUser($event)">
         <md-icon md-font-icon="icon-qrcode"></md-icon>
         <div flex class="md-list-item-text">
             <h3 class="text-truncate text-spacing md-primary" translate="scan_user">Scan gebruiker</h3>
         </div>
     </md-list-item>
-    <div ng-show="!vm.loadingAttendance && !vm.filteredAttendance.length == 0" class="management-item md-white-bg" md-ink-ripple layout="row" layout-align="start center" ng-repeat="user in vm.filteredAttendance | limitTo:vm.limitAmount track by user.id" ng-click="">
+    <div ng-show="!vm.loadingAttendance && !vm.filteredAttendance.length == 0" class="management-item md-white-bg" md-ink-ripple layout="row" layout-align="start center" ng-repeat="user in vm.filteredAttendance | limitTo:vm.limitAmount track by user.id" ng-click="vm.openScanResultDialog($event, user)">
 
         <div layout="row" layout-align="start center" flex>
 
@@ -41,6 +41,12 @@
                         <div class="tag-label">{{tag.name}}</div>
                     </div>
                 </div>
+            </div>
+            
+            <div layout="row" layout-align="start center">
+                <md-icon ng-show="user.status.code == 0" style="color: greenyellow" md-font-icon="icon-check"></md-icon>
+                <md-icon ng-show="user.status.code == 1" style="color: orange" md-font-icon="icon-close"></md-icon>
+                <md-icon ng-show="user.status.code == 2" style="color: red" md-font-icon="icon-close"></md-icon>
             </div>
 
             <!-- <div class="buttons" layout="row" layout-align="start center">
