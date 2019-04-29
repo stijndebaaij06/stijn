@@ -34,13 +34,13 @@
                 <!-- <md-button type="submit" ng-if="!vm.newItem" ng-click="vm.saveItem()" class="send-button md-accent" aria-label="Add message" translate="add"> 
                     ADD MESSAGE 
                 </md-button> -->
-                <md-button ng-if="vm.checkIn.status.desc == 'check_user_address'" type="submit" ng-click="vm.checkedAddress()" class="send-button md-accent md-raised" aria-label="block" translate="address_checked"> 
+                <md-button ng-if="vm.checkIn.status.desc == 'check_user_address' || vm.checkIn.status.desc == 'waiting_for_address_change'" type="submit" ng-click="vm.checkedAddress()" class="send-button md-accent md-raised" aria-label="block" translate="address_checked"> 
                     Address Checked
                 </md-button>
-                <md-button ng-show="vm.checkIn.status.desc !== 'check_user_address' && vm.checkIn.status.code !== 2" type="submit" ng-click="vm.toggleAccess()" class="send-button md-warn md-raised" aria-label="block" translate="block"> 
+                <md-button ng-show="vm.checkIn.status.desc !== 'check_user_address' && vm.checkIn.status.desc !== 'waiting_for_address_change' && vm.checkIn.status.code !== 2" type="submit" ng-click="vm.toggleAccess()" class="send-button md-warn md-raised" aria-label="block" translate="block"> 
                     Block
                 </md-button>
-                <md-button ng-show="vm.checkIn.status.desc !== 'check_user_address' && vm.checkIn.status.code == 2" type="submit" ng-click="vm.toggleAccess()" class="send-button md-raised" aria-label="unblock" translate="unblock"> 
+                <md-button ng-show="vm.checkIn.status.desc !== 'check_user_address' && vm.checkIn.status.desc !== 'waiting_for_address_change' && vm.checkIn.status.code == 2" type="submit" ng-click="vm.toggleAccess()" class="send-button md-raised" aria-label="unblock" translate="unblock"> 
                     Unblock
                 </md-button>
             </div>

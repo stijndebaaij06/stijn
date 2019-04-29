@@ -315,22 +315,33 @@
                                 //status BLOCK
                             }
                             var shouldCheck = false;
+                            var waitingOnLastAddressChange = false;
                             if (orgUserDoc.lastAddressCheck && userData.lastAddressChange) {
                                //both exist
-                                if(orgUserDoc.lastAddressCheck.toDate() < userData.lastAddressChange.toDate()){
+                                if (orgUserDoc.lastAddressCheck.toDate() < userData.lastAddressChange.toDate()) {
                                     shouldCheck = true; //changed after last check, manual check.
                                 }
                             } else {
+                                if (!userData.lastAddressChange) waitingOnLastAddressChange = true;
                                 shouldCheck = true; //couldn't verify, manual check.
                             }
-                            if(shouldCheck){
+                            if (waitingOnLastAddressChange) {
+                                status.code = 1;
+                                status.desc = 'waiting_for_address_change';
+                                vm.setCheckIn(status, userData).then(checkInObj => {
+                                    console.log('checkInObj', checkInObj);
+                                    return resolve(checkInObj);
+                                })
+                            }
+                            else if (shouldCheck) {
                                 status.code = 1;
                                 status.desc = 'check_user_address';
                                 vm.setCheckIn(status, userData).then(checkInObj => {
                                     console.log('checkInObj', checkInObj);
                                     return resolve(checkInObj);
                                 })
-                            }else{
+                            }
+                            else {
                                 status.code = 0;
                                 status.desc = 'success';
                                 vm.setCheckIn(status, userData).then(checkInObj => {
@@ -349,7 +360,11 @@
                 var checkIn = {};
                 checkIn.status = status;
                 if (userData.phone) checkIn.phone = userData.phone;
-                if (userData.address) checkIn.address = userData.postal + ' ' + userData.address;
+                if (userData.address) {
+                    checkIn.address = '';
+                    if (userData.postal) checkIn.address = userData.postal + ' ';
+                }
+                if (userData.address) checkIn.address = checkIn.address + userData.address;
                 checkIn.date = new Date();
                 checkIn.name = userData.firstName;
                 if (userData.lastName) checkIn.name = checkIn.name + ' ' + userData.lastName;

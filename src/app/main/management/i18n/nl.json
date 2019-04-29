@@ -101,9 +101,10 @@
     , "scan_user": "Gebruiker scannen"
     , "scanned_user": "Gescande gebruiker"
     , "no_user_address": "Geen adres ingevult"
-    , "check_user_address": "Check het adres"
+    , "check_user_address": "Adres gecontroleerd"
     , "block": "Blokkeren"
     , "unblock": "Deblokkeren"
     , "address_checked": "Adres gecontroleerd"
     , "status_updated": "Status is veranderd"
+    , "waiting_for_address_change": "Er is pas net een adres toegevoegd, het kan zijn dat het even kan duren voordat je het adres kan controleren..."
 }
