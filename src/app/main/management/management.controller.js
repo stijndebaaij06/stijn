@@ -124,12 +124,13 @@
                                     }
                                     console.log('vm.organisation', vm.organisation);
                                 });
-                                ref.organisation.collection('attendance').onSnapshot(function (snapshot) {
+                                ref.organisation.collection('attendance').orderBy('date', 'desc').onSnapshot(function (snapshot) {
                                     vm.attendanceUsers = {};
                                     snapshot.forEach(function (doc) {
                                         var attendance = doc.data();
                                         attendance.id = doc.id;
                                         if (attendance.date) attendance.date = attendance.date.toDate();
+                                        console.log('attendance', attendance);
                                         vm.attendanceUsers[doc.id] = attendance;
                                     });
                                     console.log('attendanceUsers', vm.attendanceUsers);
@@ -271,7 +272,7 @@
                 console.log('error scanning user!', error);
             })
         }
-        vm.processScannedUser = function (userData){
+        vm.processScannedUser = function (userData) {
             return $q(function (resolve, reject) {
                 var status = {};
                 //status.code, 0=OK, 1=CHECK, 2=BLOCK
@@ -316,7 +317,7 @@
                             var shouldCheck = false;
                             if (orgUserDoc.lastAddressCheck && userData.lastAddressChange) {
                                //both exist
-                                if(orgUserDoc.lastAddressCheck.toMillis() < userData.lastAddressChange.toMillis()){
+                                if(orgUserDoc.lastAddressCheck.toDate() < userData.lastAddressChange.toDate()){
                                     shouldCheck = true; //changed after last check, manual check.
                                 }
                             } else {
@@ -348,7 +349,7 @@
                 var checkIn = {};
                 checkIn.status = status;
                 if (userData.phone) checkIn.phone = userData.phone;
-                if (userData.address) checkIn.address = userData.address;
+                if (userData.address) checkIn.address = userData.postal + ' ' + userData.address;
                 checkIn.date = new Date();
                 checkIn.name = userData.firstName;
                 if (userData.lastName) checkIn.name = checkIn.name + ' ' + userData.lastName;

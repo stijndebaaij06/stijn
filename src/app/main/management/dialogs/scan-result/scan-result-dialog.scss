@@ -1,5 +1,4 @@
 md-dialog {
-
     &.scan-result-dialog {
         .scan-result-content {
             text-align: center;
@@ -15,9 +14,7 @@ md-dialog {
 }
 // RESPONSIVE
 @media screen and (max-width: $layout-breakpoint-md) {
-
     md-dialog {
-
         &.scan-result-dialog {
             width: 80%;
         }
@@ -25,9 +22,7 @@ md-dialog {
 }
 
 @media screen and (max-width: $layout-breakpoint-sm) {
-
     md-dialog {
-
         &.scan-result-dialog {
             width: 90%;
         }

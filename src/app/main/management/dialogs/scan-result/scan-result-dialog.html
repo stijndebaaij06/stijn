@@ -1,7 +1,7 @@
 <md-dialog class="scan-result-dialog" aria-label="New message">
     <form name="messageForm" class="md-inline-form" novalidate>
         <md-dialog-content ms-scroll>
-            <div class="placeholder" ng-if="vm.loading">
+            <div class="placeholder" ng-show="vm.loading">
                 <div class="spinner-wrapper-custom">
                     <div class="spinner">
                         <div class="inner">
@@ -20,7 +20,9 @@
                 <h2>{{'name' | translate}}</h3>
                 <h3>{{vm.checkIn.name}}</h3>
                 <h2 ng-show="vm.checkIn.address">{{'address' | translate}}</h3>
-                <h3 ng-show="vm.checkIn.address">{{vm.checkIn.address}}</h3>
+                <a ng-show="vm.checkIn.address" href="http://maps.google.com/maps?q={{vm.checkIn.address}}" target="_blank">
+                    <h3>{{vm.checkIn.address}}</h3>
+                </a>
                 <md-icon ng-show="vm.checkIn.status.code == 0" style="color: greenyellow" md-font-icon="icon-check"></md-icon>
                 <md-icon ng-show="vm.checkIn.status.code == 1" style="color: orange" md-font-icon="icon-close"></md-icon>
                 <md-icon ng-show="vm.checkIn.status.code == 2" style="color: red" md-font-icon="icon-close"></md-icon>
@@ -28,12 +30,18 @@
             </div>
         </md-dialog-content>
         <md-dialog-actions layout="row" layout-align="space-between center">
-            <div layout="row" layout-align="start center">
+            <div layout="row" layout-align="start center" ng-show="!vm.loading">
                 <!-- <md-button type="submit" ng-if="!vm.newItem" ng-click="vm.saveItem()" class="send-button md-accent" aria-label="Add message" translate="add"> 
                     ADD MESSAGE 
                 </md-button> -->
-                <md-button type="submit" ng-click="vm.toggleAccess()" class="send-button md-warn md-raised" aria-label="deny access" translate="deny_access"> 
-                    Deny Access 
+                <md-button ng-if="vm.checkIn.status.desc == 'check_user_address'" type="submit" ng-click="vm.checkedAddress()" class="send-button md-accent md-raised" aria-label="block" translate="address_checked"> 
+                    Address Checked
+                </md-button>
+                <md-button ng-show="vm.checkIn.status.desc !== 'check_user_address' && vm.checkIn.status.code !== 2" type="submit" ng-click="vm.toggleAccess()" class="send-button md-warn md-raised" aria-label="block" translate="block"> 
+                    Block
+                </md-button>
+                <md-button ng-show="vm.checkIn.status.desc !== 'check_user_address' && vm.checkIn.status.code == 2" type="submit" ng-click="vm.toggleAccess()" class="send-button md-raised" aria-label="unblock" translate="unblock"> 
+                    Unblock
                 </md-button>
             </div>
             <div layout="row">

@@ -102,4 +102,8 @@
     , "scanned_user": "Gescande gebruiker"
     , "no_user_address": "Geen adres ingevult"
     , "check_user_address": "Check het adres"
+    , "block": "Blokkeren"
+    , "unblock": "Deblokkeren"
+    , "address_checked": "Adres gecontroleerd"
+    , "status_updated": "Status is veranderd"
 }

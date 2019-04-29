@@ -15,7 +15,7 @@
             <h3 class="text-truncate text-spacing md-primary" translate="scan_user">Scan gebruiker</h3>
         </div>
     </md-list-item>
-    <div ng-show="!vm.loadingAttendance && !vm.filteredAttendance.length == 0" class="management-item md-white-bg" md-ink-ripple layout="row" layout-align="start center" ng-repeat="user in vm.filteredAttendance | limitTo:vm.limitAmount track by user.id" ng-click="vm.openScanResultDialog($event, user)">
+    <div ng-show="!vm.loadingAttendance && !vm.filteredAttendance.length == 0" class="management-item md-white-bg" md-ink-ripple layout="row" layout-align="start center" ng-repeat="user in vm.filteredAttendance | orderBy:'date':'desc' | limitTo:vm.limitAmount track by user.id" ng-click="vm.openScanResultDialog($event, user)">
 
         <div layout="row" layout-align="start center" flex>
 

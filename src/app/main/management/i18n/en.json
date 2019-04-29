@@ -102,4 +102,8 @@
     , "scanned_user": "Scanned user"
     , "no_user_address": "No address entered"
     , "check_user_address": "Check user address"
+    , "block": "Block"
+    , "unblock": "Unblock"
+    , "address_checked": "Address checked"
+    , "status_updated": "Status updated"
 }
