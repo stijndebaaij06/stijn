@@ -287,50 +287,60 @@
                         console.log('checkInObj', checkInObj);
                         return resolve(checkInObj);
                     })
-                }
-                var orgUserRef = ref.organisation.collection('users').doc(userData.id);
-                orgUserRef.get().then(doc => {
-                    if (!doc.exists) {
-                        //user doesnt exist, ORANGE status
-                        console.log('processScannedUser no org userdata');
-                        //TODO: check address
-                        status.code = 1;
-                        status.desc = 'check_user_address';
-                        vm.setCheckIn(status, userData).then(checkInObj => {
-                            //pass status to new dialog including actions to proceed.
-                            console.log('checkInObj', checkInObj);
-                            return resolve(checkInObj);
-                        })
-                    } else {
-                        var orgUserDoc = doc.data();
-                        console.log('processScannedUser orgUserDoc', orgUserDoc);
-                        if (orgUserDoc.accessDenied) {
-                            status.code = 2;
-                            status.desc = 'user_blocked';
-                            vm.setCheckIn(status, userData).then(checkInObj => {
-                                console.log('checkInObj', checkInObj);
-                                return resolve(checkInObj);
-                            })
-                            //status BLOCK
-                        }
-                        if (orgUserDoc.lastAddressCheck !== userData.lastAddressChange) {
+                }else{
+                    var orgUserRef = ref.organisation.collection('users').doc(userData.id);
+                    orgUserRef.get().then(doc => {
+                        if (!doc.exists) {
+                            //user doesnt exist, ORANGE status
+                            console.log('processScannedUser no org userdata');
                             //TODO: check address
                             status.code = 1;
                             status.desc = 'check_user_address';
                             vm.setCheckIn(status, userData).then(checkInObj => {
+                                //pass status to new dialog including actions to proceed.
                                 console.log('checkInObj', checkInObj);
                                 return resolve(checkInObj);
                             })
                         } else {
-                            status.code = 0;
-                            status.desc = 'success';
-                            vm.setCheckIn(status, userData).then(checkInObj => {
-                                console.log('checkInObj', checkInObj);
-                                return resolve(checkInObj);
-                            })
+                            var orgUserDoc = doc.data();
+                            console.log('processScannedUser orgUserDoc', orgUserDoc);
+                            if (orgUserDoc.accessDenied) {
+                                status.code = 2;
+                                status.desc = 'user_blocked';
+                                vm.setCheckIn(status, userData).then(checkInObj => {
+                                    console.log('checkInObj', checkInObj);
+                                    return resolve(checkInObj);
+                                })
+                                //status BLOCK
+                            }
+                            var shouldCheck = false;
+                            if (orgUserDoc.lastAddressCheck && userData.lastAddressChange) {
+                               //both exist
+                                if(orgUserDoc.lastAddressCheck.toMillis() < userData.lastAddressChange.toMillis()){
+                                    shouldCheck = true; //changed after last check, manual check.
+                                }
+                            } else {
+                                shouldCheck = true; //couldn't verify, manual check.
+                            }
+                            if(shouldCheck){
+                                status.code = 1;
+                                status.desc = 'check_user_address';
+                                vm.setCheckIn(status, userData).then(checkInObj => {
+                                    console.log('checkInObj', checkInObj);
+                                    return resolve(checkInObj);
+                                })
+                            }else{
+                                status.code = 0;
+                                status.desc = 'success';
+                                vm.setCheckIn(status, userData).then(checkInObj => {
+                                    console.log('checkInObj', checkInObj);
+                                    return resolve(checkInObj);
+                                })
+                            }
                         }
-                    }
-                })
+                    })
+                }
+                
             });
         }
         vm.setCheckIn = function (status, userData) {
