@@ -100,7 +100,8 @@
                     //     console.log('checkInObj', checkInObj);
                     //     return resolve(checkInObj);
                     // })
-                }else{
+                } 
+                else {
                     var orgUserRef = ref.organisation.collection('users').doc(userData.id);
                     orgUserRef.get().then(doc => {
                         if (!doc.exists) {
@@ -140,7 +141,6 @@
                         }
                     })
                 }
-                
             });
         }
 
