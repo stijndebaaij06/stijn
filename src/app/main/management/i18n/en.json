@@ -107,4 +107,5 @@
     , "address_checked": "Address checked"
     , "status_updated": "Status updated"
     , "waiting_for_address_change": "Address only added just now, our system might need a few seconds before you can confirm the address"
+    , "ice_number": "In case of emergency number"
 }

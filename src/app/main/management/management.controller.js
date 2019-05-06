@@ -360,6 +360,7 @@
                 var checkIn = {};
                 checkIn.status = status;
                 if (userData.phone) checkIn.phone = userData.phone;
+                if (userData.icePhone) checkIn.icePhone = userData.icePhone;
                 if (userData.address) {
                     checkIn.address = '';
                     if (userData.postal) checkIn.address = userData.postal + ' ';
