@@ -17,20 +17,21 @@
                 </div>
             </div>
             <div class="scan-result-content" ng-show="!vm.loading">
+                <md-icon ng-if="vm.checkIn.status.code == 0" style="color: greenyellow" md-font-icon="icon-check"></md-icon>
+                <md-icon ng-if="vm.checkIn.status.code == 1" style="color: orange" md-font-icon="icon-close"></md-icon>
+                <md-icon ng-if="vm.checkIn.status.code == 2" style="color: red" md-font-icon="icon-close"></md-icon>
                 <h2>{{'name' | translate}}</h3>
                 <h3>{{vm.checkIn.name}}</h3>
-                <h2 ng-show="vm.checkIn.address">{{'address' | translate}}</h3>
-                <a ng-show="vm.checkIn.address" href="http://maps.google.com/maps?q={{vm.checkIn.address}}" target="_blank">
+                <h2 ng-if="vm.checkIn.address">{{'address' | translate}}</h3>
+                <a ng-if="vm.checkIn.address" href="http://maps.google.com/maps?q={{vm.checkIn.address}}" target="_blank">
                     <h3>{{vm.checkIn.address}}</h3>
                 </a>
                 <h2 ng-if="vm.checkIn.icePhone">{{'ice_number' | translate}}</h3>
                 <a ng-if="vm.checkIn.icePhone" href="tel:{{vm.checkIn.icePhone}}" target="_blank">
                     <h3>{{vm.checkIn.icePhone}}</h3>
                 </a>
-                <md-icon ng-show="vm.checkIn.status.code == 0" style="color: greenyellow" md-font-icon="icon-check"></md-icon>
-                <md-icon ng-show="vm.checkIn.status.code == 1" style="color: orange" md-font-icon="icon-close"></md-icon>
-                <md-icon ng-show="vm.checkIn.status.code == 2" style="color: red" md-font-icon="icon-close"></md-icon>
-                <h3 ng-show="vm.checkIn.status.code == 1">{{vm.checkIn.status.message}}</h3>
+                <h2 ng-if="vm.checkIn.status.code == 1">{{'status' | translate}}</h3>
+                <h3 ng-if="vm.checkIn.status.code == 1">{{vm.checkIn.status.message}}</h3>
             </div>
         </md-dialog-content>
         <md-dialog-actions layout="row" layout-align="space-between center">
@@ -41,10 +42,10 @@
                 <md-button ng-if="vm.checkIn.status.desc == 'check_user_address' || vm.checkIn.status.desc == 'waiting_for_address_change'" type="submit" ng-click="vm.checkedAddress()" class="send-button md-accent md-raised" aria-label="block" translate="address_checked"> 
                     Address Checked
                 </md-button>
-                <md-button ng-show="vm.checkIn.status.desc !== 'check_user_address' && vm.checkIn.status.desc !== 'waiting_for_address_change' && vm.checkIn.status.code !== 2" type="submit" ng-click="vm.toggleAccess()" class="send-button md-warn md-raised" aria-label="block" translate="block"> 
+                <md-button ng-show="vm.checkIn.status.desc !== 'check_user_address' && vm.checkIn.status.desc !== 'no_user_address' && vm.checkIn.status.desc !== 'waiting_for_address_change' && vm.checkIn.status.code !== 2" type="submit" ng-click="vm.toggleAccess()" class="send-button md-warn md-raised" aria-label="block" translate="block"> 
                     Block
                 </md-button>
-                <md-button ng-show="vm.checkIn.status.desc !== 'check_user_address' && vm.checkIn.status.desc !== 'waiting_for_address_change' && vm.checkIn.status.code == 2" type="submit" ng-click="vm.toggleAccess()" class="send-button md-raised" aria-label="unblock" translate="unblock"> 
+                <md-button ng-show="vm.checkIn.status.desc !== 'check_user_address' && vm.checkIn.status.desc !== 'no_user_address' && vm.checkIn.status.desc !== 'waiting_for_address_change' && vm.checkIn.status.code == 2" type="submit" ng-click="vm.toggleAccess()" class="send-button md-raised" aria-label="unblock" translate="unblock"> 
                     Unblock
                 </md-button>
             </div>

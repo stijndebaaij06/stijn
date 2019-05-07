@@ -14,17 +14,26 @@
             checkIn.ref.get().then(function (doc) {
                 var checkIn = doc.data();
                 checkIn.userRef.get().then(function (doc) {
-                    var userData = doc.data();
-                    userData.id = doc.id;
-                    if (manualChange) {
-                        vm.getStatus(userData).then(status => {
-                            // console.log('status', status);
-                            console.log('checkIn.status', checkIn.status);
-                            checkIn.ref.set({status: status}, {merge:true}).then(function () {
-                                vm.showToast('status_updated');
-                                init();
+                    if (doc.exists) {
+                        var userData = doc.data();
+                        userData.id = doc.id;
+                        if (manualChange) {
+                            vm.getStatus(userData).then(status => {
+                                // console.log('status', status);
+                                console.log('checkIn.status', checkIn.status);
+                                checkIn.ref.set({status: status}, {merge:true}).then(function () {
+                                    vm.showToast('status_updated');
+                                    init();
+                                });
                             });
-                        });
+                        } else {
+                            $timeout(function () {
+                                checkIn.status.message = $translate(checkIn.status.desc); 
+                                vm.checkIn = checkIn;
+                                vm.loading = false;
+                                console.log('vm.checkIn', vm.checkIn);
+                            });
+                        }
                     } else {
                         $timeout(function () {
                             checkIn.status.message = $translate(checkIn.status.desc); 
