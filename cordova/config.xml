@@ -16,7 +16,7 @@
     <allow-intent href="mailto:*" />
     <allow-intent href="geo:*" />
     <preference name="AndroidLaunchMode" value="singleTask" />
-    <universal-links>
+    <universal-links>        
         <host name="https://bobdev.page.link" scheme="https" />
         <host name="hallo-bob.firebaseapp.com" scheme="https">
             <path url="/__/auth/callback" />

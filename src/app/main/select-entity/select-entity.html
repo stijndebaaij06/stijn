@@ -55,7 +55,7 @@
                                 <h3 class="text-truncate text-spacing md-primary">{{community.communityData.name}}</h3>
                             </div> <span flex></span>
                         </md-list-item>
-                        <md-list-item ng-if="organisation.shouldBeShown" ng-repeat="(organisationId, organisation) in community.organisations | limitTo: 1" class="secondary contact-item md-white-bg" ng-click="vm.selectEntity(community.id, organisationId)">
+                        <md-list-item ng-if="organisation.shouldBeShown && organisation.worthShowing" ng-repeat="(organisationId, organisation) in community.organisations | limitTo: 1" class="secondary contact-item md-white-bg" ng-click="vm.selectEntity(community.id, organisationId)">
                             <!--                            <img class="md-avatar" ng-src="{{organisation.organisationData.img}}" class="md-avatar" />-->
                             <div class="md-list-item-text">
                                 <h3 class="text-truncate text-spacing"><span>&nbsp;-&nbsp;&nbsp;&nbsp;</span>{{organisation.organisationData.name}}</h3>

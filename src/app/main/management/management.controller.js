@@ -69,6 +69,8 @@
                                         , readRights: true
                                         , editMessages: true
                                         , readMessages: true
+                                        , editUserRegistration: true
+                                        , readUserRegistration: true
                                     }
                                     // console.log('vm.rights', vm.rights);
                                     // console.log('vm.access', vm.access);
@@ -463,6 +465,7 @@
                 , locals: {
                     event: ev
                     , checkIn: checkIn
+                    , access: vm.access
                     , newEntry: newEntry
                 }
             });

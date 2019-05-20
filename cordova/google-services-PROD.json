@@ -1,0 +1,107 @@
+{
+  "project_info": {
+    "project_number": "450441977911",
+    "firebase_url": "https://hallo-bob-prod.firebaseio.com",
+    "project_id": "hallo-bob-prod",
+    "storage_bucket": "hallo-bob-prod.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:450441977911:android:e4f52af8c15b9225",
+        "android_client_info": {
+          "package_name": "nl.wemaron.bob.userregistration"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "450441977911-3qk7s6v7lllbj6teplhkiihp3rkothd2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAPfFNfzh3bzEfGswYwRwwnWh8sJwinV1E"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "450441977911-3qk7s6v7lllbj6teplhkiihp3rkothd2.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "450441977911-c2ikvs1pehv629d2m580o59he4kmnc49.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "nl.wemaron.bobdebot.cordova"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:450441977911:android:0021c9c2bb7b8f61",
+        "android_client_info": {
+          "package_name": "nl.wemaron.bobdebot.cordova"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "450441977911-85ltr6kjp4ur1922n6ciko3ge24el6ll.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "nl.wemaron.bobdebot.cordova",
+            "certificate_hash": "019f022df0bfa2dfe5e01591fddb98b8b0ee29ef"
+          }
+        },
+        {
+          "client_id": "450441977911-rainu94o0cicsol89rilrsr7fhi0gf8e.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "nl.wemaron.bobdebot.cordova",
+            "certificate_hash": "9381ff0b2846287c765321e8dec99ebbe59d8ec8"
+          }
+        },
+        {
+          "client_id": "450441977911-22jpeqsudnjkaju2ov3s9rvh7b93ivim.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "nl.wemaron.bobdebot.cordova",
+            "certificate_hash": "451432143bc4f51e3eb976308a0b8d681a5a76ce"
+          }
+        },
+        {
+          "client_id": "450441977911-3qk7s6v7lllbj6teplhkiihp3rkothd2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAPfFNfzh3bzEfGswYwRwwnWh8sJwinV1E"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "450441977911-3qk7s6v7lllbj6teplhkiihp3rkothd2.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "450441977911-c2ikvs1pehv629d2m580o59he4kmnc49.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "nl.wemaron.bobdebot.cordova"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

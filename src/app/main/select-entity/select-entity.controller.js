@@ -24,8 +24,9 @@
                             // user.exploitant = false;
                             if (user.exploitant) vm.user = user;
                             if (firstTime) {
-                                if (user.exploitant) vm.getAllEntities();
-                                if (!user.exploitant) vm.getYourEntities();
+                                vm.getYourEntities();
+                                // if (user.exploitant) vm.getAllEntities();
+                                // if (!user.exploitant) vm.getYourEntities();
                             }
                             console.log('vm.user', vm.user);
                         }
@@ -88,11 +89,11 @@
                         if (doc.exists) {
                             var communityUserData = doc.data();
                             // console.log("communityUserData", communityUserData);
-                            if (_.isEmpty(communityUserData.access) == false) {
-                                //DISABLED UNTILL ONLY SELECTING A COMMUNITY IS ADDED
-                                vm.communities[communityId].worthShowing = true;
-                                vm.communities[communityId].clickable = true;
-                            }
+                            // if (_.isEmpty(communityUserData.access) == false) {
+                            //     //DISABLED UNTILL ONLY SELECTING A COMMUNITY IS ADDED
+                            //     vm.communities[communityId].worthShowing = true;
+                            //     vm.communities[communityId].clickable = true;
+                            // }
                             $timeout(function () {
                                 vm.communities[communityId].userData = communityUserData;
                             });
@@ -108,8 +109,16 @@
                                 organisation.ref.collection('users').doc(vm.userId).onSnapshot(function (doc) {
                                     if (doc.exists) {
                                         var organisationUserData = doc.data();
-                                        if (_.isEmpty(organisationUserData.access) == false) {
+                                        // if (_.isEmpty(organisationUserData.access) == false) {
+                                        //     vm.communities[communityId].worthShowing = true;
+                                        // }
+                                        console.log(_.chain(organisationUserData).get('access').get('readUserRegistration').value());
+                                        if (_.chain(organisationUserData).get('access').get('readUserRegistration').value()) {
                                             vm.communities[communityId].worthShowing = true;
+                                            vm.communities[communityId].organisations[organisationId].worthShowing = true;
+                                        }
+                                        else {
+                                            vm.communities[communityId].organisations[organisationId].worthShowing = false;
                                         }
                                         vm.communities[communityId].organisations[organisationId].userData = organisationUserData;
                                     }
@@ -185,7 +194,7 @@
                         try {
                             var showCommunity = false;
                             var foundCommunity = false;
-                            if (community.communityData.name.toLowerCase().indexOf(search) !== -1) {
+                            if (_.chain(community).get('communityData').get('name').value().toLowerCase().indexOf(search) !== -1) {
                                 showCommunity =  true;
                                 foundCommunity = true;
                             }

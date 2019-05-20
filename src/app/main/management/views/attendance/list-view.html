@@ -9,7 +9,7 @@
             </div>
         </div>
     </div>
-    <md-list-item ng-show="!vm.loadingAttendance" class="extra-item md-white-bg" ng-click="vm.scanUser($event)">
+    <md-list-item ng-if="vm.access.organisation.editUserRegistration" ng-show="!vm.loadingAttendance" class="extra-item md-white-bg" ng-click="vm.scanUser($event)">
         <md-icon md-font-icon="icon-qrcode"></md-icon>
         <div flex class="md-list-item-text">
             <h3 class="text-truncate text-spacing md-primary" translate="scan_user">Scan gebruiker</h3>

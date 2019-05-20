@@ -35,7 +35,8 @@
             </div>
         </md-dialog-content>
         <md-dialog-actions layout="row" layout-align="space-between center">
-            <div layout="row" layout-align="start center" ng-show="!vm.loading">
+            <div layout="row" layout-align="start center" ng-if="!vm.access.organisation.editUserRegistration"></div>
+            <div layout="row" layout-align="start center" ng-show="!vm.loading" ng-if="vm.access.organisation.editUserRegistration">
                 <!-- <md-button type="submit" ng-if="!vm.newItem" ng-click="vm.saveItem()" class="send-button md-accent" aria-label="Add message" translate="add"> 
                     ADD MESSAGE 
                 </md-button> -->

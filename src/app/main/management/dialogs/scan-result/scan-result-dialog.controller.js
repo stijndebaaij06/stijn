@@ -2,13 +2,15 @@
     'use strict';
     angular.module('app.management').controller('ScanResultDialogController', ScanResultDialogController);
     /** @ngInject */
-    function ScanResultDialogController($mdDialog, checkIn, newEntry, $timeout, $mdToast, $filter, ref, $q) {
+    function ScanResultDialogController($mdDialog, checkIn, access, newEntry, $timeout, $mdToast, $filter, ref, $q) {
         var vm = this;
         var $translate = $filter('translate');
         // Data
         vm.newItem = newEntry;
+        vm.access = access;
         vm.loading = true;
 
+        // console.log('vm.access', vm.access);
         function init(manualChange) {
             vm.loading = true;
             checkIn.ref.get().then(function (doc) {
