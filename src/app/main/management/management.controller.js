@@ -361,6 +361,7 @@
                 checkIn.status = status;
                 if (userData.phone) checkIn.phone = userData.phone;
                 if (userData.icePhone) checkIn.icePhone = userData.icePhone;
+                if (userData.birthdate) checkIn.birthdate = userData.birthdate;
                 if (userData.address) {
                     checkIn.address = '';
                     if (userData.postal) checkIn.address = userData.postal + ' ';

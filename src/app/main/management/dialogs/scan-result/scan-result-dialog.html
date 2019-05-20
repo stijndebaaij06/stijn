@@ -26,10 +26,18 @@
                 <a ng-if="vm.checkIn.address" href="http://maps.google.com/maps?q={{vm.checkIn.address}}" target="_blank">
                     <h3>{{vm.checkIn.address}}</h3>
                 </a>
+                <h2 ng-if="vm.checkIn.birthdate">{{'birthdate' | translate}}</h3>
+                    <a ng-if="vm.checkIn.birthdate" target="_blank">
+                        <h3>{{vm.checkIn.birthdate}}</h3>
+                    </a>
                 <h2 ng-if="vm.checkIn.icePhone">{{'ice_number' | translate}}</h3>
                 <a ng-if="vm.checkIn.icePhone" href="tel:{{vm.checkIn.icePhone}}" target="_blank">
                     <h3>{{vm.checkIn.icePhone}}</h3>
                 </a>
+                <h2 ng-if="vm.checkIn.phone">{{'phone_number' | translate}}</h3>
+                    <a ng-if="vm.checkIn.phone" href="tel:{{vm.checkIn.phone}}" target="_blank">
+                        <h3>{{vm.checkIn.phone}}</h3>
+                    </a>
                 <h2 ng-if="vm.checkIn.status.code == 1">{{'status' | translate}}</h3>
                 <h3 ng-if="vm.checkIn.status.code == 1">{{vm.checkIn.status.message}}</h3>
             </div>
