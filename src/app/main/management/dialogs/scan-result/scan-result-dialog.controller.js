@@ -29,16 +29,27 @@
                                 });
                             });
                         } else {
-                            $timeout(function () {
-                                checkIn.status.message = $translate(checkIn.status.desc); 
-                                vm.checkIn = checkIn;
-                                vm.loading = false;
-                                console.log('vm.checkIn', vm.checkIn);
-                            });
+                            setCheckIn();
+                            // $timeout(function () {
+                            //     checkIn.status.message = $translate(checkIn.status.desc);
+                            //     if (checkIn.birthdate) checkIn.birthdate = checkIn.birthdate.toDate();
+                            //     vm.checkIn = checkIn;
+                            //     vm.loading = false;
+                            //     console.log('vm.checkIn', vm.checkIn);
+                            // });
                         }
                     } else {
+                        setCheckIn();
+                    }
+                    function setCheckIn () {
                         $timeout(function () {
-                            checkIn.status.message = $translate(checkIn.status.desc); 
+                            checkIn.status.message = $translate(checkIn.status.desc);
+                            if (checkIn.birthdate) {
+                                checkIn.birthdate = checkIn.birthdate.toDate();
+                                var cur = new Date();
+                                var diff = cur-checkIn.birthdate; // This is the difference in milliseconds
+                                checkIn.age = Math.floor(diff/31557600000); // Divide by 1000*60*60*24*365.25
+                            }
                             vm.checkIn = checkIn;
                             vm.loading = false;
                             console.log('vm.checkIn', vm.checkIn);

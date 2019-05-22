@@ -24,9 +24,9 @@
                             // user.exploitant = false;
                             if (user.exploitant) vm.user = user;
                             if (firstTime) {
-                                vm.getYourEntities();
-                                // if (user.exploitant) vm.getAllEntities();
-                                // if (!user.exploitant) vm.getYourEntities();
+                                // vm.getYourEntities();
+                                if (user.exploitant) vm.getAllEntities();
+                                if (!user.exploitant) vm.getYourEntities();
                             }
                             console.log('vm.user', vm.user);
                         }

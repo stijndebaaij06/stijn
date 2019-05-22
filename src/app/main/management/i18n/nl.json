@@ -109,4 +109,5 @@
     , "waiting_for_address_change": "Er is pas net een adres toegevoegd, het kan zijn dat het even kan duren voordat je het adres kan controleren..."
     , "ice_number": "Telefoonnummer in geval van nood"
     , "status": "Status"
+    , "age": "Leeftijd"
 }
