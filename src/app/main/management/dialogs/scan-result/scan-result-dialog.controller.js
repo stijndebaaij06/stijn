@@ -18,7 +18,6 @@
                 // console.log('checkIn', checkIn);
                 // console.log('checkIn.userRef.id', checkIn.userRef.id);
                 checkIn.userRef.get().then(function (doc) {
-                    console.log('doc.exists', doc.exists);
                     if (doc.exists) {
                         var userData = doc.data();
                         userData.id = doc.id;
