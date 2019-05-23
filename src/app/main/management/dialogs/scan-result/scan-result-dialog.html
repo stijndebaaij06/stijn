@@ -36,8 +36,8 @@
                     <a ng-if="vm.checkIn.phone" href="tel:{{vm.checkIn.phone}}" target="_blank">
                         <h3>{{vm.checkIn.phone}}</h3>
                     </a>
-                <h2 ng-if="vm.checkIn.status.code == 1">{{'status' | translate}}</h3>
-                <h3 ng-if="vm.checkIn.status.code == 1">{{vm.checkIn.status.message}}</h3>
+                <h2 ng-if="vm.checkIn.status.code == 1 || vm.checkIn.status.code == 2">{{'status' | translate}}</h3>
+                <h3 ng-if="vm.checkIn.status.code == 1 || vm.checkIn.status.code == 2">{{vm.checkIn.status.message}}</h3>
             </div>
         </md-dialog-content>
         <md-dialog-actions layout="row" layout-align="space-between center">
@@ -52,7 +52,7 @@
                 <md-button ng-show="vm.checkIn.status.desc !== 'check_user_address' && vm.checkIn.status.desc !== 'no_user_address' && vm.checkIn.status.desc !== 'waiting_for_address_change' && vm.checkIn.status.code !== 2" type="submit" ng-click="vm.toggleAccess()" class="send-button md-warn md-raised" aria-label="block" translate="block"> 
                     Block
                 </md-button>
-                <md-button ng-show="vm.checkIn.status.desc !== 'check_user_address' && vm.checkIn.status.desc !== 'no_user_address' && vm.checkIn.status.desc !== 'waiting_for_address_change' && vm.checkIn.status.code == 2" type="submit" ng-click="vm.toggleAccess()" class="send-button md-raised" aria-label="unblock" translate="unblock"> 
+                <md-button ng-show="vm.checkIn.status.desc !== 'check_user_address' && vm.checkIn.status.desc !== 'no_user_address' && vm.checkIn.status.desc !== 'waiting_for_address_change' && vm.checkIn.status.code == 2 && vm.checkIn.status.desc == 'user_blocked'" type="submit" ng-click="vm.toggleAccess()" class="send-button md-raised" aria-label="unblock" translate="unblock"> 
                     Unblock
                 </md-button>
             </div>

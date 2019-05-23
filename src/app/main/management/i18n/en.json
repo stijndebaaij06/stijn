@@ -110,4 +110,5 @@
     , "ice_number": "In case of emergency number"
     , "status": "Status"
     , "age": "Age"
+    , "user_no_longer_exists": "User no longer exists"
 }

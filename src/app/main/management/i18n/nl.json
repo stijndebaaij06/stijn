@@ -110,4 +110,5 @@
     , "ice_number": "Telefoonnummer in geval van nood"
     , "status": "Status"
     , "age": "Leeftijd"
+    , "user_no_longer_exists": "De gebruiker bestaat niet meer."
 }

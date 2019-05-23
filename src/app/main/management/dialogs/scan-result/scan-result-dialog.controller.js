@@ -15,13 +15,18 @@
             vm.loading = true;
             checkIn.ref.get().then(function (doc) {
                 var checkIn = doc.data();
+                // console.log('checkIn', checkIn);
+                // console.log('checkIn.userRef.id', checkIn.userRef.id);
                 checkIn.userRef.get().then(function (doc) {
+                    console.log('doc.exists', doc.exists);
                     if (doc.exists) {
                         var userData = doc.data();
                         userData.id = doc.id;
+                        // console.log('userData', userData);
+                        // console.log('manualChange', manualChange);
                         if (manualChange) {
                             vm.getStatus(userData).then(status => {
-                                // console.log('status', status);
+                                console.log('status', status);
                                 console.log('checkIn.status', checkIn.status);
                                 checkIn.ref.set({status: status}, {merge:true}).then(function () {
                                     vm.showToast('status_updated');
@@ -39,6 +44,19 @@
                             // });
                         }
                     } else {
+                        if (checkIn.status.desc !== 'user_no_longer_exists') {
+                            var statusObj = {
+                                desc: 'user_no_longer_exists'
+                                , code: 2
+                            }
+                            checkIn.ref.update({
+                                status: statusObj
+                            });
+                            vm.showToast('user_no_longer_exists', 10000);
+                            init(true);
+                        }
+                        // checkIn.status.desc = 'user_no_longer_exists';
+                        // checkIn.status.code = 2;
                         setCheckIn();
                     }
                     function setCheckIn () {
@@ -77,28 +95,13 @@
             if (vm.checkIn.status.desc == 'user_blocked') toggleValue = false;
             if (toggleValue) toggleDate = new Date();
             if (!toggleValue) toggleDate = firebase.firestore.FieldValue.delete();
-            // if (toggleValue) {
-            //     status = {
-            //         status: {
-            //             code: 2
-            //             , desc: 'user blocked'
-            //         }
-            //     }
-            // } else {
-            //     status = {
-            //         status: {
-            //             code: 0
-            //             , desc: 'success'
-            //         }
-            //     }
-            // }
-            
             ref.organisation.collection('users').doc(vm.checkIn.userRef.id).set({accessDenied: toggleValue, denyDate: toggleDate}, {merge: true}).then(function () {
                 init(true);
             });
         }
 
         vm.checkedAddress = function () {
+            console.log('vm.checkIn', vm.checkIn);
             ref.organisation.collection('users').doc(vm.checkIn.userRef.id).set({lastAddressCheck: firebase.firestore.FieldValue.serverTimestamp()}, {merge: true}).then(function () {
                 init(true);
             });
@@ -122,7 +125,7 @@
                     //     console.log('checkInObj', checkInObj);
                     //     return resolve(checkInObj);
                     // })
-                } 
+                }
                 else {
                     var orgUserRef = ref.organisation.collection('users').doc(userData.id);
                     orgUserRef.get().then(doc => {
@@ -143,6 +146,7 @@
                                 //status BLOCK
                             }
                             var shouldCheck = false;
+                            var waitingOnLastAddressChange = false;
                             if (orgUserDoc.lastAddressCheck && userData.lastAddressChange) {
                                //both exist
                                 if(orgUserDoc.lastAddressCheck.toDate() < userData.lastAddressChange.toDate()){
@@ -151,7 +155,12 @@
                             } else {
                                 shouldCheck = true; //couldn't verify, manual check.
                             }
-                            if(shouldCheck){
+                            if (waitingOnLastAddressChange) {
+                                status.code = 1;
+                                status.desc = 'waiting_for_address_change';
+                                return resolve(status);
+                            }
+                            else if (shouldCheck) {
                                 status.code = 1;
                                 status.desc = 'check_user_address';
                                 return resolve(status);
