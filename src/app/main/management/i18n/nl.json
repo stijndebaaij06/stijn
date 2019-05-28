@@ -107,7 +107,7 @@
     , "address_checked": "Adres gecontroleerd"
     , "status_updated": "Status is veranderd"
     , "waiting_for_address_change": "Er is pas net een adres toegevoegd, het kan zijn dat het even kan duren voordat je het adres kan controleren..."
-    , "ice_number": "Telefoonnummer in geval van nood"
+    , "ice_number": "Noodnummer"
     , "status": "Status"
     , "age": "Leeftijd"
     , "user_no_longer_exists": "De gebruiker bestaat niet meer."

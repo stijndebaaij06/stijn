@@ -404,7 +404,7 @@
                         try {
                             let url = new URL(result.text);
                             let params = new URLSearchParams(url.search.slice(1));
-                            var userId = params.get('id')
+                            var userId = params.get('id');
                             console.log('scan userId', userId);
                         }
                         catch (err) {
